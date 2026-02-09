@@ -412,6 +412,36 @@ const updateProduce = asyncHandler(async (req,res)=>{
 //})
 
 
+//@desc  Fetch all retailers in one go
+//@route GET /api/retailers/all
+//@access Public
+const getretailersForOneAgent = asyncHandler(async (req,res)=>{
+
+  res.header("Access-Control-Allow-Origin","*")
+  const pageSize = 10 //i recommend 4 per page,cuz of whats in the frontend
+     const page = Number(req.query.pageNumber) || 1
+
+
+let count;
+let retailers;
+
+
+ 
+  console.log("AGENT ID I AM GETTING IS-->",req.query.agentId )
+
+count = await Retailer.countDocuments({agent_user_id:new mongoose.Types.ObjectId(req.query.agentId) }),
+retailers = await Retailer.find({agent_user_id:new mongoose.Types.ObjectId(req.query.agentId)}) /*.limit(pageSize).skip(pageSize *(page-1))*/ /**watch for if the retailers fetching will slow the dbs */
+
+console.log("retailers FOR THIS AGENT is --->",retailers)
+
+console.log("count of retailer docs FOR THIS AGENT IS is --->",count)
+
+
+
+  res.json({retailers,page,pages:Math.ceil(count/pageSize)})
+})
+
+
 const addProduce = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
 
@@ -655,7 +685,7 @@ const getAllRetailerProducts = asyncHandler(async (req,res)=>{
 
 
 
-export {sendWelcomeEmail,getRetailers,addNewRetailer,getProducts, getProductById,deleteProduct, createProduct,addProduce,updateProduce, updateProduct, updateProductStockCount, createProductReview ,getTopProducts,getAllRetailerProducts}
+export {sendWelcomeEmail,getRetailers,getRetailersForOneAgent,addNewRetailer,getProducts, getProductById,deleteProduct, createProduct,addProduce,updateProduce, updateProduct, updateProductStockCount, createProductReview ,getTopProducts,getAllRetailerProducts}
 //exports.getProducts = getProducts
 //exports.getProductById = getProductById
 //exports.deleteProduct = deleteProduct

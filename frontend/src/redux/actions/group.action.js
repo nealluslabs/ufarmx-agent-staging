@@ -51,12 +51,17 @@ import { isItLoading, saveAllGroup, saveEmployeer,
   saveCurrentFormFilter,
   saveCurrentFarmersForThisAgent,
   clearCurrentFarmersForThisAgent,
+  clearCurrentRetailersForThisAgent,
   saveTotalPagesFarmersForThisAgent,
+  saveTotalPagesRetailersForThisAgent,
   clearCurrentResponsesToDisplay,
   clearFilteredResponses,
   clearFilteredForms,
 
+  clearRetailersForThisAgent,
 
+  saveCurrentRetailersForThisAgent,
+  saveFilteredRetailersForThisAgent,
   saveLoggedInAgent,
   saveLoggedInFarmer,
   saveCurrentFormsToDisplay,
@@ -77,6 +82,7 @@ import { isItLoading, saveAllGroup, saveEmployeer,
   saveUtilityBillIndUrl,
   savePhotoIdIndUrl,
   savePhotoIdBusUrl,
+  saveAllRetailersForThisAgent,
   saveUtilityBillBusUrl,
   saveProductsForRequestInFocus,
 } from '../reducers/group.slice';
@@ -3286,6 +3292,105 @@ export const fetchAgentsFromPage = (pageNumber,keyword,vendorName) => async (dis
 
 }
 
+export const fetchRetailersForOneAgent = (agentId) => async (dispatch,getState) => {
+ 
+
+  const farmer1 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724863974/farmer8_l3ewpm.png"
+  const farmer2 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724863990/farmer2_icjojq.png"
+  const farmer3 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724863997/farmer5_ip0m4q.png"
+  const farmer4 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724863998/farmer7_zsvpiv.png"
+  const farmer5 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724863996/farmer3_ngfl1i.png"
+  const farmer6 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724866493/farmer1_ijfjvu.png"
+  const farmer7 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724866568/farmer10_bnpjqc.png"
+  const farmer8 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724866571/farmer9_l6pqj5.png"
+  const farmer9 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724866573/farmer4_mp8ffo.png"
+  const farmer10 = "https://res.cloudinary.com/deoprtt98/image/upload/v1724866573/farmer6_fnwxhj.png"
+  
+
+
+  
+ await dispatch(clearRetailersForThisAgent([]));
+ await dispatch(saveTotalPagesFarmersForThisAgent(0))
+
+
+
+
+
+ await axios.get(`${baseUrl}/api/retailers/oneagent?agentId=${agentId}`)
+   .then((results) => {
+     const pageFarmers = results.data
+  
+      console.log("results from ALLLLLLLLLL of farmers FOR THIS AGENT-->",pageFarmers)
+
+let farmersFromDBArray = []
+
+
+     pageFarmers.farmers && pageFarmers.farmers.sort((a,b)=>(new Date(b.createdAt) - new Date(a.createdAt))).filter((item)=>(item.farmsize||item.farm_size||item.farmSize||item.size_of_farm  )).forEach((item,index)=>{
+      
+        ////console.log("ITEM'S PHOTO IS -->",item.photo && item.photo)
+    
+   
+    
+        return  farmersFromDBArray.push({
+       ...item,
+      // id:item._id?item._id:item.OriginalResponseId? item.OriginalResponseId: "8Gnbs3WPwJ7ZzzvHgORs",
+      // farmerName:item.name?item.name:item.name_first__last?item.name_first__last:item.what_is_your_name?item.what_is_your_name:item.firstName && item.lastName?item.firstName + " " + item.lastName: "No Name",
+      // cropType:"Cash Crops",
+      // location:item.location ? item.location:index%2==0?"Oyo Nigeria":"Dakar Sénégal", /**LOCATIONS IN DB ARE IN GEOGRAPHICAL CODE */
+      // gps:item.location?item.location:" ",
+      // lastHarvest:"30",
+      // index:index,
+      // age: item.age?item.age:"45",
+      // farmSize: item.farm_size?item.farm_size:"7",
+      // market:item.market?item.market:"Local Market",
+      // typeOfChemical:item.typeOfChemical?item.typeOfChemical:"Yes, Ire",
+      // organicFarmingInterest:item.organicFarmingInterest?item.organicFarmingInterest:"Yes",
+
+      // id:item._id?item._id:item.OriginalResponseId? item.OriginalResponseId: "8Gnbs3WPwJ7ZzzvHgORs",
+
+      // photo:item.photo?item.photo :index === 0?farmer1:index=== 1?farmer2:index === 2?farmer3:index === 3?farmer4:index === 4?farmer5:index === 5?farmer6:index === 6?farmer7:index === 7?farmer8:index === 8?farmer9:index === 9?farmer10:farmer10 ,
+      // onboardDate:item.createdAt && new Date(item.createdAt) ?
+      // 
+      // `${String(new Date(item.createdAt).getDate()).padStart(2, '0')}-${String(new Date(item.createdAt).getMonth() + 1).padStart(2, '0')}-${new Date(item.createdAt).getFullYear()}`
+      //
+      // :
+ 
+      // "01-01-2024",
+     })
+
+
+
+  })
+
+
+   if (farmersFromDBArray.length > 0) {
+     dispatch(isItLoading(false));
+     console.log("All FARMERS Data FOR THIS AGENT:", farmersFromDBArray);
+      
+     dispatch(clearCurrentRetailersForThisAgent([]));
+     dispatch(saveAllRetailersForThisAgent(farmersFromDBArray));
+     dispatch(saveFilteredRetailersForThisAgent(farmersFromDBArray));
+
+   dispatch(saveCurrentRetailersForThisAgent(farmersFromDBArray/*.slice(0,10)*/ ));
+  // dispatch(saveCurrentRetailersToDisplay(farmersFromDBArray ));
+     dispatch(saveTotalPagesRetailersForThisAgent(pageFarmers.pages))
+   } else {
+       dispatch(isItLoading(false));
+      // dispatch(saveCurrentFarmersForThisAgent(farmersFromDBArray.slice(0,10)));
+
+  dispatch(clearCurrentRetailersForThisAgent([]));
+       dispatch(saveTotalPagesRetailersForThisAgent(0))
+       console.log("No retailers returned FOR THIS AGENT!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   dispatch(isItLoading(false));
+ });
+
+
+}
+
+
 
 
 export const fetchFarmersFromPageForThisAgent = (agentId) => async (dispatch,getState) => {
@@ -3323,6 +3428,10 @@ export const fetchFarmersFromPageForThisAgent = (agentId) => async (dispatch,get
 
 
 }
+
+
+
+
 
 
 

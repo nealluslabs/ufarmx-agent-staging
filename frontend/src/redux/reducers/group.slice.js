@@ -17,7 +17,7 @@ const initialState = {
        filteredForms:[],
        allResponses: [],
        allResponsesAdmin: [],  
-       
+       retailersForThisAgent:[],
        filteredResponses:[],
        filteredResponsesAdmin:[],
        allAgents: [], 
@@ -31,6 +31,11 @@ const initialState = {
        currentResponsesToDisplayAdmin:[],
        currentDepositsToDisplay:[],
        currentFormsToDisplay:[],
+          
+      currentRetailersForThisAgent:[],
+       allRetailersForThisAgent:[],
+      filteredRetailersForThisAgent:[],
+
       
        totalPagesFarmers:1,
        totalPagesResponses:1,
@@ -39,6 +44,7 @@ const initialState = {
        totalPagesDeposits:1,
        totalPagesFarmersForThisAgent:1,
        totalPagesFilteredFarmers:1,
+       totalPagesFilteredRetailers:1,
        totalPagesFilteredFarmersForThisAgent:1,
        totalPagesFilteredResponses:1,
        totalPagesFilteredResponsesAdmin:1,
@@ -165,11 +171,23 @@ saveLoggedInFarmer: (state, action) => {
   saveCurrentFarmersForThisAgent: (state, action) => {
     state.currentFarmersForThisAgent = action.payload;
 },
+
+saveCurrentRetailersForThisAgent: (state, action) => {
+  state.currentRetailersForThisAgent = action.payload;
+},
 clearCurrentFarmersForThisAgent: (state, action) => {
   state.currentFarmersForThisAgent = [];
  
   state.filteredFarmersForThisAgent = [];
 },
+
+clearCurrentRetailersForThisAgent: (state, action) => {
+  state.currentRetailersForThisAgent = [];
+ 
+  state.filteredRetailersForThisAgent = [];
+},
+
+
   saveCurrentResponsesToDisplay: (state, action) => {
     state.currentResponsesToDisplay = action.payload;
 },
@@ -192,6 +210,10 @@ saveCurrentFormsToDisplay: (state, action) => {
 clearCurrentFormsToDisplay: (state, action) => {
 state.currentFormsToDisplay = [];
 },
+
+clearRetailersForThisAgent: (state, action) => {
+  state.retailersForThisAgent = [];
+  },
 
   saveCurrentAgentsToDisplay: (state, action) => {
     state.currentAgentsToDisplay = action.payload;
@@ -294,16 +316,29 @@ saveAllSuperAdmins: (state, action) => {
     state.allFarmersForThisAgent = action.payload;
 },
 
+saveAllRetailersForThisAgent: (state, action) => {
+  state.allRetailersForThisAgent = action.payload;
+},
+
+
   saveFilteredFarmers: (state, action) => {
     state.filteredFarmers = action.payload;
 },
 
+
+saveFilteredRetailers: (state, action) => {
+  state.filteredRetailers = action.payload;
+},
 clearFilteredFarmers: (state, action) => {
   state.filteredFarmers = initialState.filteredFarmers;
 },
 
 saveFilteredFarmersForThisAgent: (state, action) => {
   state.filteredFarmersForThisAgent = action.payload;
+},
+
+saveFilteredRetailersForThisAgent: (state, action) => {
+  state.filteredRetailersForThisAgent = action.payload;
 },
 
 
@@ -351,6 +386,10 @@ clearFilteredResponses: (state, action) => {
   saveTotalPagesFarmersForThisAgent: (state, action) => {
     state.totalPagesFarmersForThisAgent = action.payload;
 },
+
+saveTotalPagesRetailersForThisAgent: (state, action) => {
+  state.totalPagesRetailersForThisAgent = action.payload;
+},
   saveTotalPagesResponses: (state, action) => {
     state.totalPagesResponses = action.payload;
 },
@@ -376,6 +415,9 @@ clearCurrentDepositsToDisplay: (state, action) => {
 
   saveTotalPagesFilteredFarmers: (state, action) => {
     state.totalPagesFilteredFarmers = action.payload;
+},
+saveTotalPagesFilteredRetailers: (state, action) => {
+  state.totalPagesFilteredRetailers = action.payload;
 },
 saveTotalPagesFilteredResponses: (state, action) => {
   state.totalPagesFilteredResponses = action.payload;
@@ -456,9 +498,11 @@ export const {
  saveAllAdmins,
  saveAllSuperAdmins,
  saveAllFarmersForThisAgent,
+ saveAllRetailersForThisAgent,
  saveFilteredFarmers,
  clearFilteredFarmers,
  saveFilteredFarmersForThisAgent,
+ saveFilteredRetailersForThisAgent,
  saveAllResponses,
  saveAllResponsesAdmin,
  saveAllForms,
@@ -472,6 +516,9 @@ export const {
  clearCurrentFarmersToDisplay,
  saveCurrentFarmersForThisAgent,
  clearCurrentFarmersForThisAgent,
+ saveCurrentRetailersForThisAgent,
+ clearCurrentRetailersForThisAgent,
+ clearRetailersForThisAgent,
  saveCurrentResponsesToDisplay,
  saveCurrentResponsesToDisplayAdmin,
  clearAllResponsesToDisplayAdmin,
@@ -485,6 +532,7 @@ export const {
  saveProductInFocus,
  saveTotalPagesFarmers,
  saveTotalPagesFarmersForThisAgent,
+ saveTotalPagesRetailersForThisAgent,
  saveTotalPagesResponses,
  saveTotalPagesResponsesAdmin,
  saveTotalPagesForms,
@@ -511,6 +559,7 @@ export const {
  saveTotalPagesAgents,
  saveTotalPagesFilteredAgents,
  saveTotalPagesFilteredFarmers,
+ saveTotalPagesFilteredRetailers,
  saveTotalPagesFilteredResponses,
  saveTotalPagesFilteredResponsesAdmin,
 

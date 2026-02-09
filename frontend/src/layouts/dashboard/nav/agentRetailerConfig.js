@@ -16,7 +16,7 @@ const icon = (name) => <img src={`/assets/icons2/${name}.png`} sx={{ width: 1, h
 const agentRetailerConfig = [
 
   {
-    title: 'Farmers',
+    title: 'Retailers',
     
     path: `/dashboard/all-farmers-one-agent`,
     icon:<FaPerson style={{color:"black"}}/> /*icon('teacher')*/,

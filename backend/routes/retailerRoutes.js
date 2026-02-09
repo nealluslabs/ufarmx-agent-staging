@@ -1,7 +1,7 @@
 import express from 'express'
 //const express= require('express')
 
-import {getProducts, getProductById,deleteProduct, updateProduct,getTopProducts,getAllRetailerProducts,createProductReview, updateProductStockCount,updateProduce,addProduce,getRetailers,sendWelcomeEmail} from '../controllers/retailerControllers.js'
+import {getProducts,getRetailersForOneAgent, getProductById,deleteProduct, updateProduct,getTopProducts,getAllRetailerProducts,createProductReview, updateProductStockCount,updateProduce,addProduce,getRetailers,sendWelcomeEmail} from '../controllers/retailerControllers.js'
 //const {getProducts, getProductById,deleteProduct,createProduct, updateProduct,getTopProducts,createProductReview, updateProductStockCount}= require('../controllers/productControllers.js')
 
 import {protect,admin} from '../Middleware/authMiddleware.js'
@@ -17,6 +17,7 @@ const router = express.Router()
 //router.route('/add').post(addNewRetailer)
 router.route('/ordermade').put(protect/*,admin*/,updateProductStockCount)
 router.route('/').get(getRetailers).post(/*protect,*/addNewRetailer)
+router.route('/oneagent').get(getRetailersForOneAgent)
 router.route('/welcomeemail').post(sendWelcomeEmail)
 router.route('/:id/reviews').post(protect,createProductReview)
 router.get('/top',getTopProducts)

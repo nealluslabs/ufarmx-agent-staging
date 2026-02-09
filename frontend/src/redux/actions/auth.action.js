@@ -112,7 +112,7 @@ export const signin = (user, navigate, setLoading) => async (dispatch) => {
    dispatch(fetchAllFarmerProduce())
     dispatch(fetchAllResponsesForOneAgent(res.data.user && res.data.user._id))
     dispatch(saveIsAgent(true))
-    dispatch(saveAgentType(userData.agentType?userData.agentType:"Farmer"))
+    dispatch(saveAgentType(userData.type?userData.type:"Farmer"))
     dispatch(saveIsSuperAdmin(false))
     dispatch(saveIsFarmer(false))
     console.log("we have acknowledged agent---->",res.data.user)

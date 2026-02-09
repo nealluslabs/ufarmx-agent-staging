@@ -119,7 +119,7 @@ setTimeout(()=>{
    
 if (
   keywords.some((keyword) =>
-    item.title.toLowerCase().includes(keyword)
+   item.title &&  item.title.toLowerCase().includes(keyword)
   ))
       
       {
@@ -152,7 +152,7 @@ else{
  
 if (
 keywords.some((keyword) =>
-  item.title.toLowerCase().includes(keyword)
+  item.title && item.title.toLowerCase().includes(keyword)
 ))
     
     {

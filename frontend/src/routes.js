@@ -34,6 +34,7 @@ import AddFarmerPage from './pages/AddFarmerPage';
 import HomePageAgent from './pages/HomePageAgent';
 import LoginPageAgent from './pages/LoginPageAgent';
 import AllFarmersOneAgentPage from './pages/AllFarmersOneAgentPage';
+import AllRetailersOneAgentPage from './pages/AllRetailersOneAgentPage';
 import LoginPageFarmer from './pages/LoginPageFarmer';
 import HomePageFarmer from './pages/HomePageFarmer';
 import FarmerProductsPage from './pages/FarmerProductsPage';
@@ -147,9 +148,11 @@ export default function Router() {
 
 
 
-       
+      { path: 'all-retailers-one-agent',element: <AllRetailersOneAgentPage />} ,
 
       { path: 'all-farmers-one-agent',element: <AllFarmersOneAgentPage /> ,
+
+      
 
 
       children: [
