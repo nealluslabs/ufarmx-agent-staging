@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "sendchamp",
+      "source": "@sendchamp/v1.0#dm33nmgovaa2l",
+      "integrity": "sha512-wRdQh3JAzvcfzTSsWF12V5Ecxpu7GlsjxMPuRXfRXWw3LQxTU+FrB27KbBSgtRDfuDSApOTB5wj0i5uMvDVyOA==",
+      "installerVersion": "6.1.3"
+    }
+  ]
+}
