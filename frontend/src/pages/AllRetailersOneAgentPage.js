@@ -102,7 +102,7 @@ export default function AllRetailersForOneAgentPage() {
   useEffect(() => {
     /*THIS USE EFFECT IS IMPORTANT TO ASSGIN AN ID SO MUI DATA GRID WILL ACCEPT THE DATA */
   const forcedId =  []
-    currentRetailersToDisplay.forEach((item,index)=>{
+   currentRetailersToDisplay &&  currentRetailersToDisplay.forEach((item,index)=>{
   
     forcedId.push({
       ...item,
@@ -196,7 +196,7 @@ useEffect(()=>{
      <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start"}}>
      
      <h1 style={{fontWeight:"500",marginBottom:"0rem"}}>Retailers</h1>
-     <div>View and manage all retailers</div>
+     <div>View and manage all Retailers</div>
      
      </div>
      

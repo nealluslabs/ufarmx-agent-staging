@@ -1076,7 +1076,7 @@ export const fetchAgentById = (id) => async (dispatch,getState) => {
 
 
 
-export const fetchAgentByPhone = (phone,navigate,setLoading) => async (dispatch,getState) => {
+export const fetchAgentByPhone = (phone,navigate,setLoading,agentType) => async (dispatch,getState) => {
   
   //dispatch(saveCurrentFarmersToDisplay([]));
   //dispatch(saveTotalPagesFarmers(0))
@@ -1099,7 +1099,14 @@ export const fetchAgentByPhone = (phone,navigate,setLoading) => async (dispatch,
        dispatch(loginSuccess(pageAgents))
    
       notifySuccessFxn("Logged In😊");
-      navigate('/dashboard/all-farmers-one-agent', { replace: true });
+
+      if(agentType && agentType.toLowerCase() === "retailer"){
+        navigate('/dashboard/all-retailers-one-agent', { replace: true });
+      }
+      else{
+        navigate('/dashboard/all-farmers-one-agent', { replace: true });
+      }
+     
     
      //dispatch(saveTotalPagesFarmers(pageAgents.pages))
    } else {

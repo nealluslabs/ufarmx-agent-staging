@@ -186,7 +186,7 @@ export default function FormsStatsLong({ forms }) {
 
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 800, width: '100%' }}>
      { !classes.row?
        <CircularProgress/>
      :

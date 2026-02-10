@@ -121,7 +121,7 @@ export const signin = (user, navigate, setLoading) => async (dispatch) => {
    
     dispatch(/*console.log("Hello")*/ fetchFarmersForOneAgent(res.data.user && res.data.user._id)).then(()=> 
     {
-    setTimeout( ()=>{dispatch(fetchAgentByPhone(res.data.user && (res.data.user.phone||res.data.user.phoneNumber||res.data.user.phone_number),navigate,setLoading)) }, 3000 )
+    setTimeout( ()=>{dispatch(fetchAgentByPhone(res.data.user && (res.data.user.phone||res.data.user.phoneNumber||res.data.user.phone_number),navigate,setLoading,userData.type && userData.type)) }, 3000 )
   }
    )
   
