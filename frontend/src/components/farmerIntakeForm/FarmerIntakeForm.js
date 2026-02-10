@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Grid, Button, Avatar, FormControl, MenuItem, Select, Typography, Divider, CardMedia, FormControlLabel, RadioGroup, Radio, Chip, Paper, Box, FormGroup, InputLabel } from '@mui/material';
@@ -82,6 +82,19 @@ export default function FarmerIntakeForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const classes = useStyles();
+
+
+  const { user } = useSelector((state) => state.auth);
+ 
+  useEffect(()=>{
+
+   if(!user ){
+    navigate('/login')
+   }
+
+  },[user])
+
+
 
 
   const inputContainer2 = {
@@ -257,7 +270,8 @@ const getGeolocation = () =>{
     
    {
     form_id:formInFocus && formInFocus._id?formInFocus._id:"65a59487c662a50026d882b4",
-    agent_user_id:null,
+    agent_user_id:user.user_id && user.user_id,
+    agentId:user.agentId && user.agentId,
     admin_user_id:formInFocus &&formInFocus.user_id,
     last_updated_by:formInFocus &&formInFocus.user_id,
     is_deleted:false,
@@ -2018,7 +2032,7 @@ else{
         
           
 
-        <Button component="label" variant="contained"  onClick={()=>{navigate('/dashboard/forms')}}  style={{ minHeight: '45px', minWidth: '145px', backgroundColor: '#0A6054',fontWeight:"500", marginTop: '15px' }}>
+        <Button component="label" variant="contained"  onClick={()=>{navigate('/dashboard/all-farmers-one-agent')}}  style={{ minHeight: '45px', minWidth: '145px', backgroundColor: '#0A6054',fontWeight:"500", marginTop: '15px' }}>
         <b>Done</b>
          
         </Button>

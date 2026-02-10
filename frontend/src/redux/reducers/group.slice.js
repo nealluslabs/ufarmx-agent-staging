@@ -6,6 +6,8 @@ const initialState = {
        allFarmers: [], 
        allRequests: [],
        allProducts: [], 
+       allRetailers: [], 
+       allProductsForOneRetailer: [],
        allRetailerProducts: [], 
        currentProductsToDisplay: [], 
        allAdmins: [], 
@@ -28,6 +30,7 @@ const initialState = {
        currentFarmersToDisplay:[],
        currentFarmersForThisAgent:[],
        currentResponsesToDisplay:[],
+       currentRetailersToDisplay:[],
        currentResponsesToDisplayAdmin:[],
        currentDepositsToDisplay:[],
        currentFormsToDisplay:[],
@@ -50,6 +53,7 @@ const initialState = {
        totalPagesFilteredResponsesAdmin:1,
        totalPagesFilteredAgents:1,
        farmerInFocus:{},
+       retailerInFocus:{},
        inputToUpdateInFocus:{},
        productInFocus:'',
        responseInFocus:{},
@@ -75,6 +79,7 @@ const initialState = {
        lastName:" ",
        email:" ",
        password:" ",
+       retailerScoreRedux:{},
 
 
        currentCropFilter:/.*/ ,
@@ -175,11 +180,18 @@ saveLoggedInFarmer: (state, action) => {
 saveCurrentRetailersForThisAgent: (state, action) => {
   state.currentRetailersForThisAgent = action.payload;
 },
+
+saveCurrentRetailersToDisplay: (state, action) => {
+  state.currentRetailersToDisplay = action.payload;
+},
+
 clearCurrentFarmersForThisAgent: (state, action) => {
   state.currentFarmersForThisAgent = [];
  
   state.filteredFarmersForThisAgent = [];
 },
+
+
 
 clearCurrentRetailersForThisAgent: (state, action) => {
   state.currentRetailersForThisAgent = [];
@@ -238,6 +250,16 @@ saveCurrentLocationFilter: (state, action) => {
 
   saveFarmerInFocus: (state, action) => {
     state.farmerInFocus = action.payload;
+},
+saveRetailerInFocus: (state, action) => {
+  state.retailerInFocus = action.payload;
+},
+clearRetailerInFocus: (state, action) => {
+  state.retailerInFocus = action.payload;
+},
+
+saveRetailerScoreRedux: (state, action) => {
+  state.retailerScoreRedux = action.payload;
 },
 
 clearFarmerInFocus: (state, action) => {
@@ -299,6 +321,10 @@ saveAgentInFocus: (state, action) => {
     state.allProducts = action.payload;
 },
 
+saveAllProductsForOneRetailer: (state, action) => {
+  state.allProductsForOneRetailer = action.payload;
+},
+
 saveAllRetailerProducts: (state, action) => {
   state.allRetailerProducts = action.payload;
 },
@@ -320,6 +346,9 @@ saveAllRetailersForThisAgent: (state, action) => {
   state.allRetailersForThisAgent = action.payload;
 },
 
+saveAllRetailers: (state, action) => {
+  state.allRetailers = action.payload;
+},
 
   saveFilteredFarmers: (state, action) => {
     state.filteredFarmers = action.payload;
@@ -493,12 +522,14 @@ export const {
  saveAllFarmers,
  saveAllRequests,
  saveAllProducts,
+ saveAllProductsForOneRetailer,
  saveAllRetailerProducts,
  saveCurrentProductsToDisplay,
  saveAllAdmins,
  saveAllSuperAdmins,
  saveAllFarmersForThisAgent,
  saveAllRetailersForThisAgent,
+ saveAllRetailers,
  saveFilteredFarmers,
  clearFilteredFarmers,
  saveFilteredFarmersForThisAgent,
@@ -512,6 +543,7 @@ export const {
  saveFilteredForms,
  clearFilteredForms,
  saveAllAgents,
+ 
  saveCurrentFarmersToDisplay,
  clearCurrentFarmersToDisplay,
  saveCurrentFarmersForThisAgent,
@@ -520,6 +552,7 @@ export const {
  clearCurrentRetailersForThisAgent,
  clearRetailersForThisAgent,
  saveCurrentResponsesToDisplay,
+ saveCurrentRetailersToDisplay,
  saveCurrentResponsesToDisplayAdmin,
  clearAllResponsesToDisplayAdmin,
  clearCurrentResponsesToDisplay,
@@ -562,7 +595,7 @@ export const {
  saveTotalPagesFilteredRetailers,
  saveTotalPagesFilteredResponses,
  saveTotalPagesFilteredResponsesAdmin,
-
+ saveRetailerScoreRedux,
  saveLoggedInAgent,
  saveLoggedInFarmer,
 
@@ -571,7 +604,8 @@ export const {
  saveIsSuperAdmin,
  saveIsAdmin,
  saveIsFarmer,
-
+ saveRetailerInFocus,
+ clearRetailerInFocus,
  savePublicGroup,
  savePrivateGroup,
  saveGroupMembers,

@@ -77,6 +77,8 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import RequestProductsPage from './pages/RequestsProductsPage';
 import DepositsFarmerPage from './pages/DepositsFarmerPage';
 import AddRequestsPage from './pages/AddRequestPage';
+import RetailersPage2 from './pages/RetailersPage2';
+import AddNewRetailerPage from './pages/AddNewRetailerPage';
 
 
 
@@ -148,11 +150,15 @@ export default function Router() {
 
 
 
-      { path: 'all-retailers-one-agent',element: <AllRetailersOneAgentPage />} ,
+      /*{ path: 'all-retailers-one-agent',element: <AllRetailersOneAgentPage />} ,*/
+
+      { path: 'all-retailers-one-agent',element: <RetailersPage2 />} ,
+
+      { path: 'new-add-new-retailer', element: <AddNewRetailerPage /> },
 
       { path: 'all-farmers-one-agent',element: <AllFarmersOneAgentPage /> ,
 
-      
+       
 
 
       children: [

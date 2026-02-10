@@ -8,6 +8,7 @@ import generateToken from '../utils/generateToken.js'
 import nodemailer from "nodemailer";
 import dotenv from 'dotenv'
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { v4 as uuidv4 } from 'uuid';
 
 const ses = new SESClient({ region: "us-east-1" });
 //const dotenv = require('dotenv')
@@ -33,8 +34,11 @@ const sesClient = new SESClient({
 
 const getRetailers = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
-  const retailers = await Retailer.find()
+  const retailers = await Retailer.find({agentId:req.query.agentId && req.query.agentId})
   
+  console.log("RETAILERS WITH AGENT ID --->",retailers)
+
+
   res.json(retailers)
 })
 
@@ -74,219 +78,170 @@ products = await Product.find({...keyword, countInStock:{$gt:0}}).limit(pageSize
 //@desc  Add a new Retailer
 //@route POST /api/retailer/add
 //@access Public
+//@desc  Create a retailer (admins only)
+//@route POST /api/retailer/adminsonly
+//@access Public
 const addNewRetailer = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
-
-  const userExists = await User.findOne({email:req.body.email  })
-
-  if (userExists) {
-    res.status(400)
-    throw new Error('This user already exists! Check your details and enter them correctly.')
-  }
-
-  const user = req.body.businessType && req.body.businessType === 'individual'?  new User({
   
-    
-    email:req.body.email,
-    is_active:true,
-    role:"Retailer",
-   
-    businessName: req.body.businessName,
-    businessAddress: req.body.businessAddress,
-    state: req.body.state,
-    password: req.body.password,
-    storeName: req.body.storeName,
-    localGovernment: req.body.localGovernment,
-    nearestLandmark: req.body. nearestLandmark,
-    yearsInBusiness: req.body.yearsInBusiness,
-    shopOwnership: req.body.shopOwnership,
-    shopSize: req.body.shopSize,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    middleName: req.body.middleName,
-    gender: req.body.gender,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    nationality: req.body.nationality,
-    stateOfOrigin: req.body.stateOfOrigin,
-    localGovernmentOfOrigin: req.body.localGovernmentOfOrigin,
-    dateOfBirth: req.body.dateOfBirth,
-    address: req.body.address,
-    currentState: req.body.currentState,
-    currentLocalGovernment: req.body.currentLocalGovernment,
-    utilityType: req.body.utilityType,
-    meansOfId: req.body.meansOfId,
-    meterNumber: req.body.meterNumber,
-    nin: req.body.nin,
-    utilityBill: req.body.utilityBillIndUrl,
-    idDocument: req.body.photoIdIndUrl,
-    
-    photoIdIndUrl:req.body.photoIdIndUrl,
-   utilityBillIndUrl:req.body.utilityBillIndUrl,
-   photoOfShopIndUrl:req.body.photoOfShopIndUrl
-   
-  })
+  try{
+    console.log("WE HAVE REACHED CREATE NEW RETAILER BY ADMIN!--->",req.body)
 
-  : 
-
-  new User({
-    email:req.body.email,
-    is_active:true,
-    role:"Retailer",
-    businessName: req.body.businessName,
-    cacNumber: req.body.cacNumber,
-    taxId: req.body.taxId,
-    businessRegistrationDate: req.body.businessRegistrationDate,
-    businessAddress: req.body.businessAddress,
-    state: req.body.state,
-    password: req.body.password,
-    localGovernment: req.body.localGovernmen,
-    city: req.body. city,
-    countryCode: '+234',
-    phoneNumber: req.body.phoneNumber,
-    businessName: req.body.businessName,
-    storeName: req.body.storeName,
-    businessAddress: req.body.businessAddress,
-    state: req.body.state,
-    localGovernment: req.body.localGovernment,
-    nearestLandmark: req.body.nearestLandmark,
-    yearsInBusiness: req.body.yearsInBusiness,
-    shopOwnership: req.body.shopOwnership,
-    shopSize: req.body.shopSize,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    middleName: req.body.middleName,
-    gender: req.body.gender,
-    email: req.body.email,
-    countryCode: '+234',
-    phoneNumber: req.body.phoneNumbe,
-    nationality: req.body.nationality,
-    stateOfOrigin: req.body.stateOfOrigin,
-    localGovernmentOrigin: req.body.localGovernmentOrigin,
-    dateOfBirth: req.body.dateOfBirth,
-    address: req.body.address,
-    currentState: req.body.currentState,
-    currentLocalGovernment: req.body.currentLocalGovernment,
-    utilityType: req.body.utilityType,
-    meansOfId: req.body.meansOfId,
-    meterNumber: req.body.meterNumber,
-    nin: req.body.nin,
-    utilityBill: req.body.utilityBillBusUrl,
-    idDocument: req.body.photoIdBusUrl,
-    cacUrl:req.body.cacUrl,
-    statusReportUrl:req.body.statusReportUrl,
-    memartUrl:req.body.memartUrl,
-    photoOfShopBusUrl:req.body.photoOfShopBusUrl,
-    photoIdBusUrl:req.body.photoIdBusUrl,
-    utilityBillBusUrl:req.body.utilityBillBusUrl 
-
-  })
-
-  const createdUser = await user.save()
-
-
-   const retailer =req.body.businessType && req.body.businessType === 'individual' ?new Retailer({
   
-     retailer_user_id:new mongoose.Types.ObjectId(createdUser._id),
-     companyEmail:req.body.email,
-     businessName: req.body.businessName,
-     businessAddress: req.body.businessAddress,
-     state: req.body.state,
-     password: req.body.password,
-     storeName: req.body.storeName,
-     localGovernment: req.body.localGovernment,
-     nearestLandmark: req.body.nearestLandmark,
-     yearsInBusiness: req.body.yearsInBusiness,
-     shopOwnership: req.body.shopOwnership,
-     shopSize: req.body.shopSize,
-     firstName: req.body.firstName,
-     lastName: req.body.lastName,
-     middleName: req.body.middleName,
-     gender: req.body.gender,
-     email: req.body.email,
-     phoneNumber: req.body.phoneNumber,
-     nationality: req.body.nationality,
-     stateOfOrigin: req.body.stateOfOrigin,
-     localGovernmentOfOrigin: req.body.localGovernmentOfOrigin,
-     dateOfBirth: req.body.dateOfBirth,
-     address: req.body.address,
-     currentState: req.body.currentState,
-     currentLocalGovernment: req.body.currentLocalGovernment,
-     utilityType: req.body.utilityType,
-     meansOfId: req.body.meansOfId,
-     meterNumber: req.body.meterNumber,
-     nin: req.body.nin,
-     utilityBill: null,
-     idDocument: null,
-     photoIdIndUrl:req.body.photoIdIndUrl,
-     utilityBillIndUrl:req.body.utilityBillIndUrl,
-     photoOfShopIndUrl:req.body.photoOfShopIndUrl
+const passwordRandom = uuidv4();
+
+//creating in the users collection
+const user =  new User({
+  
+   email:req.body.email,
+  is_active:true,
+  role:"Retailer",
+  password:passwordRandom && passwordRandom.slice(0,8), //use random figure generator here
+  passWord:passwordRandom && passwordRandom.slice(0,8), //use random figure generator here
+  firstName: req.body.firstName,
+  lastName: req.body.lastName,
+ 
+ 
+})
+
+const createdUser = await user.save()
+
+//creating in the users collection end
+
+
+//creating in the retailers collection
+
+const retailer = new Retailer({
+  agentId: req.body.agentId ?? " ", //checked
+  agent_user_id: req.body.agent_user_id
+  ? new mongoose.Types.ObjectId(req.body.agent_user_id)
+  : undefined,
+  age: req.body.age ?? " ", //checked
+  address: req.body.address ?? " ", //checked
+  businessAddress: req.body.businessAddress ?? " ", //checked
+  businessName: req.body.businessName ?? " ", //checked
+  cacCertificateUrl: req.body.cacCertificate ?? " ", //checked
+  companyEmail: req.body.email ?? " ", //checked
+  completeAndAccurateApplication: req.body.completeAndAccurateApplication ?? " ",//checked
+ 
+  currentState: req.body.state ?? " ", //checked
+  //dateOfBirth: req.body.dateOfBirth ?? " ",
+  email: req.body.email ?? " ", //done
+  firstName: req.body.firstName ?? " ", //done
+  gender: req.body.gender ?? " ", //done
+  idDocument: " ", //checked
+  idDocumentUrl: req.body.idDocument ?? " ", //checked
+  lastName: req.body.lastName ?? " ", //done
+  localGovernment: req.body.lga ?? " ", //done
+  meansOfId: req.body.idType ?? " ", //checked
+  memartUrl: req.body.memart ?? " ", //checked
+  meterNumber: req.body.meter ?? " ", //checked
+  middleName: req.body.otherNames ?? " ", //done
+  nationality: req.body.nationality ?? " ", //done
+  nearestLandmark: req.body.landmark ?? " ", //checked
+  nin: req.body.nin ?? " ", //checked
+  phoneNumber: req.body.phone ?? " ", //done
+  proofOfAddressUrl: req.body.proofOfAddress ?? " ", //checked
+  retailer_user_id: new mongoose.Types.ObjectId(createdUser._id),
+  retailerRiskScore:req.body.retailerRiskScore ?? " ",
+  shopOwnership: req.body.shopOwnership ?? " ", //checked
+  shopPhotosUrl: req.body.shopPhotos ?? " ", //checked
+  shopSize: req.body.shopSize ?? " ", //checked
+  stockValue: req.body.stockValue ?? " ", //checked
+  state: req.body.state ?? " ", //checked
+  stateOfOrigin: req.body.state ?? " ", //done
+  statusReportUrl: req.body.statusReport ?? " ", //checked
+  storeName: req.body.businessName ?? " ", //checked
+  tin: req.body.tin ?? " ", //checked
+  utilityBill: " ", //checked
+  utilityBillUrl: req.body.utilityBill ?? " ", //checked
+  utilityType: req.body.utilityType ?? " ", //checked
+  yearsInBusiness: req.body.businessTenure ?? " ", //checked
+  totalCollected:0,
+  totaDisbursed:0
+});
+
+
+const createdRetailer = await retailer.save()
+
+
+//creating in the retailers collection end
+
+
+
+
+    /*SEND WELCOME EMAIL TO RETAILER*/
+
+     // Initialize the SES client
+const sesClient = new SESClient({
+  region: "eu-west-2", // e.g. "us-east-1" - come and remove these environemt variables before pushing o !
+  credentials: {
+    accessKeyId:process.env.REACT_APP_ACCESS_KEY_ID,
+    secretAccessKey:process.env.REACT_APP_SECRET_ACCESS_KEY,
+  },
+});
+
+
+
+
+     try {
+      const params = {
+        Destination: {
+          ToAddresses: [req.body.email], // recipient email
+        },
+        Message: {
+          Body: {
+            Text: {
+              Data: "Welcome to the Ufarmx platform! 🚀.",
+            },
+            Html: {
+              Data: ` <h2>Welcome to uFarmX!</h2>
+                     <p>Dear <strong>${req.body.firstName &&req.body.firstName||req.body.lastName &&req.body.lastName }</strong>,</p>
+                     <br/>
+                     <br/>
+                      <p>You have been registered as ${req.body.role && req.body.role === "Retailer"?"a":"a"} ${req.body.role && req.body.role} on the platform.</p>
+                      <br/>
+                      <p>Your account has been created. And your password is ${req.body.password &&req.body.password}.</p>
+                      <br/>
+  
+                     
+  
+                      <p>Kindly login to the platform with your email and password.</p>
+                      <br/>
+  
+                      <p>Warm Regards,</p>
+                      <p>– The uFarmX Team</p>`
+            },
+          },
+          Subject: {
+            Data: "Welcome to UfarmX – Empowering Farmers Together",
+          },
+        },
+        Source: 'info@ufarmx.com'//process.env.SES_FROM_EMAIL, // must be a verified SES sender
+      };
+  
+      //WE PAUSE ON SENDING EMAILS FOR NOW
+      // const command = new SendEmailCommand(params);
+     //  /*const response =*/ await sesClient.send(command);
+  
+     // console.log("✅ Email sent successfully:", response.MessageId);
+      //res.status(201).json(createdRetailer)
+      return res.status(201).json({ ...createdRetailer, message: "successful" });
+
+
+
+      /*SEND WELCOME EMAIL TO RETAILER -END*/
     
-   })
-   :
-   new Retailer({
-    retailer_user_id:new mongoose.Types.ObjectId(createdUser._id),
-    companyEmail:req.body.email,
-    businessName: req.body.businessName,
-    cacNumber: req.body.cacNumber,
-    taxId: req.body.taxId,
-    businessRegistrationDate: req.body.businessRegistrationDate,
-    businessAddress: req.body.businessAddress,
-    state: req.body.state,
-    password: req.body.password,
-    localGovernment: req.body.localGovernment,
-    city: req.body.city,
-    countryCode: '+234',
-    phoneNumber: req.body.phoneNumber,
-    businessName: req.body.businessName,
-    storeName: req.body.storeName,
-    businessAddress: req.body.businessAddress,
-    state: req.body.state,
-    localGovernment: req.body.localGovernment,
-    nearestLandmark: req.body.nearestLandmark,
-    yearsInBusiness: req.body.yearsInBusiness,
-    shopOwnership: req.body.shopOwnership,
-    shopSize: req.body.shopSize,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    middleName: req.body.middleName,
-    gender: req.body.gender,
-    email: req.body.email,
-    countryCode: '+234',
-    phoneNumber: req.body.phoneNumber,
-    nationality: req.body.nationality,
-    stateOfOrigin: req.body. stateOfOrigin,
-    localGovernmentOrigin: req.body.ocalGovernmentOrigin,
-    dateOfBirth: req.body.dateOfBirth,
-    address: req.body.address,
-    currentState: req.body.currentState,
-    currentLocalGovernment: req.body.currentLocalGovernment,
-    utilityType: req.body. utilityType,
-    meansOfId: req.body.meansOfId,
-    meterNumber: req.body.meterNumber,
-    nin: req.body.nin,
-    utilityBill: req.body.utilityBillBusUrl,
-    idDocument: null,
-    cacUrl:req.body.cacUrl,
-    statusReportUrl:req.body.statusReportUrl,
-    memartUrl:req.body.memartUrl,
-    photoIdBusUrl:req.body.photoIdBusUrl,
-    photoOfShopBusUrl:req.body.photoOfShopBusUrl,
-    utilityBillBusUrl:req.body.utilityBillBusUrl
-   })
-
-
-
-   const createdRetailer = await retailer.save()
-
-    //res.status(201).json(createdretailer)
-    if(createdRetailer && createdUser){
-
-      //console.log(createdRetailer && createdUser)
-    res.status(201).json({...createdRetailer,token:generateToken(createdUser._id)})
-    }else{
-      res.status(400).json({message:"invalid user data"})
+    } catch (error) {
+      console.error("❌ Error sending email:", error);
+      return res.status(200).json({ message: "Server error, email not sent" });
     }
+
+
+}
+  catch(error){
+    res.status(400).json({ message: "Failed to add create retailer", error: error.message });
+}
 })
 
 

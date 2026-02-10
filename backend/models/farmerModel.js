@@ -56,6 +56,8 @@ const farmersSchema =  mongoose.Schema({
         chemicals:{type:String ,required:false },
         farmerId:{type:String ,required:false },
         agentAddedId:{type:String ,required:false },
+        agentId:{type:String ,required:false },
+        agent_user_id:{type:mongoose.Schema.Types.ObjectId,required:false},
         familySize:{type:String ,required:false },
         phone:{type:String ,required:false },
 
@@ -75,8 +77,8 @@ const farmersSchema =  mongoose.Schema({
         
         firstName:{type:String ,required:false },
         lastName:{type:String ,required:false },
-        username:{type:String ,required:false,default:0},
-        password:{type:String ,required:false,default:0},
+        username:{type:String ,required:false},
+        password:{type:String ,required:false},
         OriginalResponseId:{type:mongoose.Schema.Types.ObjectId,required:false, ref:'responsesdbs'},
 
 },{timestamps:true,strict:false /*you want a createdAt? you add timestamps:true*/})

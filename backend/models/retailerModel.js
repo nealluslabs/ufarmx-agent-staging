@@ -15,15 +15,17 @@ const nameSchema = mongoose.Schema({
 
 const RetailerSchema =  mongoose.Schema({
       
-     
+       age:{type:String ,required:false },
         companyName:{type:String ,required:false },
-        companyEmail:{type:String,required:false ,default:"0kg"},
-        phoneNumber:{type:String,required:false ,default:"0kg"},
-        companyAddress:{type:String,required:false ,default:"0kg"},
+        companyEmail:{type:String,required:false ,default:"default@gmail.com"},
+        phoneNumber:{type:String,required:false ,default:"023456789"},
+        companyAddress:{type:String,required:false ,default:"sample address"},
       retailer_user_id:{type:mongoose.Schema.Types.ObjectId,required:false, ref:'User'},
-
-        price:{type:String ,required:false ,default:"0"},
-        availableBalance:{type:Number ,required:false ,default:0},
+      availableBalance:{type:Number ,required:false ,default:0},
+      totalDisbursed:{type:Number ,required:false ,default:0},
+      totalCollected:{type:Number ,required:false ,default:0},
+         profit:{type:Number ,required:false ,default:0},
+        //price:{type:String ,required:false ,default:"0"},
         
 
 

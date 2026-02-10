@@ -34,8 +34,10 @@ import { isItLoading, saveAllGroup, saveEmployeer,
   saveAllResponses,
   saveAllResponsesAdmin,
   saveAllForms,
+  saveAllProductsForOneRetailer,
   saveAllAgents,
-
+   saveAllRetailers,
+   saveCurrentRetailersToDisplay,
   saveFilteredFarmers,
   saveFilteredForms,
   clearFilteredFarmers,
@@ -85,6 +87,7 @@ import { isItLoading, saveAllGroup, saveEmployeer,
   saveAllRetailersForThisAgent,
   saveUtilityBillBusUrl,
   saveProductsForRequestInFocus,
+  saveRetailerInFocus,
 } from '../reducers/group.slice';
 
 import { saveIsAgent, saveIsFarmer, saveIsAdmin,saveIsSuperAdmin } from '../reducers/group.slice';
@@ -94,6 +97,7 @@ import { saveIsAgent, saveIsFarmer, saveIsAdmin,saveIsSuperAdmin } from '../redu
 
 import axios from 'axios';
 import baseUrl from './baseUrl';
+import retailerBaseUrl from './retailerScoreUrl';
 import { useSelector } from 'react-redux';
 import { fetchAdminById } from './auth.action';
 import { useNavigate } from 'react-router-dom';
@@ -206,6 +210,21 @@ export const addNewDeposit = (deposit) => async (dispatch,getState) => {
 
 }
 
+export const calculateRetailerScore = (retailerInfo) => async (dispatch) => {
+  console.log("GENERATING RETAILER SCORE============>>>>>>>>")
+  const res = axios.post(`${retailerBaseUrl}`,retailerInfo)
+  return res
+  .then((res) => {
+    console.log('RETAILER SCORE============>>>>>>>>>>>', res.data)
+      return res;
+    })
+    .then((res) => {
+      //notifySuccessFxn('retailer Score Calculated!');
+      return res;
+    });
+
+}
+
 
 
 export const addNewFarmer = (farmerInfo) => async (dispatch,getState) => {
@@ -239,7 +258,7 @@ export const requestWelcomeEmail = (retailerInfo) => async (dispatch,getState) =
 
 
 
-export const addNewRetailer = (retailerInfo,navigate) => async (dispatch,getState) => {
+export const addNewRetailerProblematic = (retailerInfo,navigate) => async (dispatch,getState) => {
   
   ////console.log("ADDING NEW RETAILER I.E REGISTERING")
 
@@ -281,6 +300,49 @@ export const addNewRetailer = (retailerInfo,navigate) => async (dispatch,getStat
   })
 
 }
+
+
+
+
+export const addNewRetailer = (farmerInfo,navigate
+
+) => async (dispatch) => {
+  
+
+
+  console.log("ADDING NEW Retailer WITHOUT IMAGE")
+  axios.post(`${baseUrl}/api/retailers/`,{...farmerInfo,photoUrl:""})
+  .then((res)=>{
+    console.log("we have refetched all retailers")
+   dispatch(fetchAllRetailers(farmerInfo.agentId))
+
+ return res
+  }).then((response)=>{
+    notifySuccessFxn('Retailer Successfully Added!')
+    //setCountry('')
+    //setPhone('')
+    //setCompanyName('')
+    //setAddress('')
+    //setFirstName('')
+    //setLastName('')
+    //setEmail('')
+    //setSelectedFile({selectedFile: null, selectedFileName: null})
+    //setFile(null)
+    //setPicture(null)("(
+
+    console.log("WHAT IS OUR REST AFTER ADDING A RETAILER-->",response.data)
+
+    dispatch(saveRetailerInFocus({...response.data}))  //res.data contains a property called message success ..its not a big deal if u dont remove it though
+    setTimeout(()=>{ navigate('/dashboard/all-retailers-one-agent')},1000)
+  })
+  .catch((error) => {
+    console.error("Error adding retailer:", error);
+    notifyErrorFxn('Could not add retailer, please make sure you have not registered with this email before');
+  });
+
+}
+
+
 
 
 export const addNewAgent = (farmerInfo) => async (dispatch,getState) => {
@@ -1074,7 +1136,83 @@ export const fetchAgentById = (id) => async (dispatch,getState) => {
 
 
 
+export const fetchRetailerById = (retailerId) => async (dispatch) => {
 
+
+ axios.get(`${baseUrl}/api/retailers/${retailerId}`)
+   .then((results) => {
+
+    console.log("results from fetching retailer by his/her id--->",results)
+
+     const pageRetailers = results.data
+  
+      console.log("results from ffetching retailer by id DATA--->",pageRetailers)
+
+   if (pageRetailers) {
+    
+     console.log("retailer with this id is-->:", pageRetailers);
+     dispatch(saveRetailerInFocus(results.data));
+
+  
+   } else {
+      
+       dispatch(saveRetailerInFocus(results.data));
+       
+       console.log("No retailers returned, by FOR THIS ID!");
+       //notifyErrorFxn("Please Check your number and try again!");
+   }
+ }).catch((error) => {
+   console.log(" Overall Error getting document of retailer by ID:", error);
+   
+ });
+
+
+}
+
+
+export const fetchRetailerProductsForOneRetailer = (/*token*/retailerId) => async (dispatch,getState) => {
+ 
+
+
+  // //console.log("WE ARE FETCHING ALL FARMERS FOR ONE RETAILER, DO WE HAVE A TOKEN?-->",token)
+  //const config = {
+  //  headers:{
+  //    'Content-type':"application/json",
+  //    Authorization:`Bearer ${token}`
+  //  }
+  // }
+  
+  
+  
+    axios.get(`${baseUrl}/api/retailer-products/oneretailer?retailerId=${retailerId}`)
+      .then((results) => {
+        const pageProducts = results.data
+     
+         console.log("results from ALLLLLLLLLL of retailer products for one retailer-->",pageProducts)
+   
+   let productsFromDBArray = [...pageProducts.products]
+   
+   
+   
+      if (productsFromDBArray.length > 0) {
+       
+        console.log("All products Data FOR ONE RETAILER:", productsFromDBArray);
+     
+        dispatch(saveAllProductsForOneRetailer(productsFromDBArray));
+     
+      } else {
+         
+          dispatch(saveAllProductsForOneRetailer(productsFromDBArray ));
+        
+         
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+     
+    });
+   
+   
+   }
 
 export const fetchAgentByPhone = (phone,navigate,setLoading,agentType) => async (dispatch,getState) => {
   
@@ -2346,6 +2484,74 @@ export const addProduceCrop = (produceObject) => async (dispatch,getState) => {
 
 
 
+export const deleteRetailer = (retailerObject) => async (dispatch,getState) => {
+ 
+
+
+  
+  console.log("deleting reatiler --->",retailerObject)
+  axios.post(`${baseUrl}/api/retailers/delete`,retailerObject)
+  .then((res)=>{
+    
+   dispatch(fetchAllRetailers(retailerObject.agentId))
+
+   return res
+  }).then((res)=>{
+
+
+  
+    dispatch(fetchAllRetailers(retailerObject.agentId))
+  
+    if(res.data && res.data.message === "success"){
+    notifySuccessFxn('Retailer Successfully Deleted!')
+    }
+    else if(res.data && res.data.message !== "success"){
+      notifyErrorFxn(res.data.message)
+    }
+
+  })
+
+
+
+
+
+}
+
+
+export const fetchAllRetailers = (agentId) => async (dispatch) => {
+ 
+
+  axios.get(`${baseUrl}/api/retailers?agentId=${agentId}`)
+    .then((results) => {
+      const pageRetailers = results.data
+   
+       console.log("results from ALLLLLLLLLL of retailers-->",pageRetailers)
+ 
+ let retailersFromDBArray = [...pageRetailers]
+ 
+ 
+ 
+    if (retailersFromDBArray.length > 0) {
+     
+      console.log("All retailers Data:", retailersFromDBArray);
+   
+      dispatch(saveAllRetailers(retailersFromDBArray));
+      dispatch(saveCurrentRetailersToDisplay(retailersFromDBArray))
+    } else {
+       
+        dispatch(saveAllRetailers(retailersFromDBArray ));
+        dispatch(saveCurrentRetailersToDisplay(retailersFromDBArray))
+       
+    }
+  }).catch((error) => {
+    console.log("Error getting document:", error);
+   
+  });
+ 
+ }
+
+
+
 
 export const deleteFarmerSingleInput = (farmerObject) => async (dispatch,getState) => {
     
@@ -2502,7 +2708,7 @@ export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep
       console.log("AXIOS REQUEST FOR ADDING NEW RESPONSE HAS BEGUN")
 
    if(results.data.message === "success"){
-    notifySuccessFxn("Response Successfully Added!")
+    notifySuccessFxn("Farmer Successfully Added!")
     setStep1(false)
     setStep2(false)
     setStep3(true)
@@ -2553,12 +2759,14 @@ export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep
   }
 
 
-    dispatch(fetchAllFarmers())
-    dispatch(fetchAllResponses())
+    //dispatch(fetchAllFarmers())
+    //dispatch(fetchAllResponses())
+
+    dispatch(fetchFarmersForOneAgent(response.agent_user_id))
    }
    else{
 
-    notifyErrorFxn("Error submitting response, please try again")
+    notifyErrorFxn("Error submitting farmer, please try again")
 
    }
     

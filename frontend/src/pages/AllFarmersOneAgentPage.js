@@ -101,7 +101,7 @@ export default function AllFarmersForOneAgentPage() {
   useEffect(() => {
     /*THIS USE EFFECT IS IMPORTANT TO ASSGIN AN ID SO MUI DATA GRID WILL ACCEPT THE DATA */
   const forcedId =  []
-    currentFarmersToDisplay.forEach((item,index)=>{
+    allFarmersForThisAgent.forEach((item,index)=>{
   
     forcedId.push({
       ...item,
@@ -115,7 +115,7 @@ export default function AllFarmersForOneAgentPage() {
 
  
 
-  }, [currentFarmersToDisplay])
+  }, [allFarmersForThisAgent])
 
 
 

@@ -5,7 +5,7 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { clearGroup, saveIsAgent,saveAgentType, saveIsFarmer, saveIsAdmin,saveIsSuperAdmin } from '../reducers/group.slice';
 //import { clearPitch } from '../reducers/pitch.slice';
 import baseUrl from './baseUrl';
-import { fetchAllFarmers,fetchAllFarmersForOneRetailer, fetchAllResponses,fetchAgentByPhone,fetchFarmerByPhone, fetchAllForms, fetchAllAdmins, fetchFarmersForOneAgent, fetchAllResponsesForOneAgent, fetchAllFarmerProduce,fetchAllRequests, fetchAllRetailerProducts } from './group.action';
+import { fetchAllFarmers,fetchAllFarmersForOneRetailer, fetchAllResponses,fetchAgentByPhone,fetchFarmerByPhone, fetchAllForms, fetchAllAdmins, fetchFarmersForOneAgent, fetchAllResponsesForOneAgent, fetchAllFarmerProduce,fetchAllRequests, fetchAllRetailerProducts, fetchAllRetailers } from './group.action';
 import axios from 'axios';
 
 
@@ -38,7 +38,7 @@ export const signin = (user, navigate, setLoading) => async (dispatch) => {
 
     console.log('res.data is for token-->',res.data.user)
 
-    localStorage.setItem('userInfo',JSON.stringify({...res.data.user/*._doc*/,token:res.data.user.token}))
+    //localStorage.setItem('userInfo',JSON.stringify({...res.data.user/*._doc*/,token:res.data.user.token}))
   
 
 //  if(res.data && res.data.user  && res.data.user._doc &&  res.data.user._doc.role &&  res.data.user._doc.role.includes("Retailer") ){
@@ -108,9 +108,21 @@ export const signin = (user, navigate, setLoading) => async (dispatch) => {
         console.log("results from ffetching agent by id DATA--->",userData)
   
      if (userData) {
-    dispatch(fetchAllForms());
-   dispatch(fetchAllFarmerProduce())
-    dispatch(fetchAllResponsesForOneAgent(res.data.user && res.data.user._id))
+     
+      if(userData.type && userData.type.toLowerCase() === "retailer"){ 
+      dispatch(fetchAllRetailers(userData && userData.agentId))
+     }
+
+
+     if (userData.type && userData.type.toLowerCase() === "farmer") {
+     dispatch(fetchFarmersForOneAgent(userData && userData.agentId))
+     
+     }
+
+    dispatch(fetchAllForms()); // not using
+   dispatch(fetchAllFarmerProduce())  // not using
+    dispatch(fetchAllResponsesForOneAgent(res.data.user && res.data.user._id))  // not using
+    
     dispatch(saveIsAgent(true))
     dispatch(saveAgentType(userData.type?userData.type:"Farmer"))
     dispatch(saveIsSuperAdmin(false))
@@ -127,6 +139,9 @@ export const signin = (user, navigate, setLoading) => async (dispatch) => {
   
   
   })
+     }else{
+      setLoading(false);
+    notifyErrorFxn("Invalid email/password, please try again")
      }
 
 

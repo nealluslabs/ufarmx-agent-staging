@@ -19,14 +19,14 @@ const agentRetailerConfig = [
     title: 'Retailers',
     
     path: `/dashboard/all-retailers-one-agent`,
-    icon:<FaPerson style={{color:"white"}}/> /*icon('teacher')*/,
+    icon:<FaPerson style={{color:"white"}}/> ,
   },
  
-  {
+ /* {
     title: 'Forms',
     path: '/dashboard/forms',
-    icon: <AiOutlineForm style={{color:"white"}}/> /*icon('report')*/,
-  },
+    icon: <AiOutlineForm style={{color:"white"}}/> ,
+  },*/
 
 
  

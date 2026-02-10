@@ -135,7 +135,8 @@ const createResponse = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
    const response = new Response({
     form_id:new mongoose.Types.ObjectId(req.body.form_id),
-     agent_user_id:req.body.agent_user_id,
+     agent_user_id:req.body.agent_user_id? new mongoose.Types.ObjectId(req.body.agent_user_id):null,
+     agentId:req.body.agentId,
      admin_user_id:new mongoose.Types.ObjectId(req.body.admin_user_id),
      last_updated_by:new mongoose.Types.ObjectId(req.body.last_updated_by),
      is_deleted:req.body.is_deleted,
@@ -156,7 +157,8 @@ const createResponse = asyncHandler(async (req,res)=>{
 
       const farmer = new Farmer({
         form_id:new mongoose.Types.ObjectId(req.body.form_id),
-         agent_user_id:req.body.agent_user_id,
+        agent_user_id:req.body.agent_user_id? new mongoose.Types.ObjectId(req.body.agent_user_id):null,
+         agentId:req.body.agentId,
          admin_user_id:new mongoose.Types.ObjectId(req.body.admin_user_id),
          last_updated_by:new mongoose.Types.ObjectId(req.body.last_updated_by),
          is_deleted:req.body.is_deleted,

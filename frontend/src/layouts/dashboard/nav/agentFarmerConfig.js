@@ -18,15 +18,15 @@ const agentFarmerConfig = [
   {
     title: 'Farmers',
     
-    path: `/dashboard/all-retailers-one-agent`,
+    path: `/dashboard/all-farmers-one-agent`,
     icon:<FaPerson style={{color:"white"}}/> /*icon('teacher')*/,
   },
  
-  {
+  /*{
     title: 'Forms',
     path: '/dashboard/forms',
-    icon: <AiOutlineForm style={{color:"white"}}/> /*icon('report')*/,
-  },
+    icon: <AiOutlineForm style={{color:"white"}}/> icon('report'),
+  },*/
 
 
 ];

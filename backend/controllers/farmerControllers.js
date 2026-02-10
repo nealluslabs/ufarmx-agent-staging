@@ -95,10 +95,21 @@ let farmers;
 
  
   console.log("AGENT ID I AM GETTING IS-->",req.query.agentId )
+  let agentId = req.query.agentId && req.query.agentId
 
-count = await Farmer.countDocuments({agent_user_id:new mongoose.Types.ObjectId(req.query.agentId) }),
-farmers = await Farmer.find({agent_user_id:new mongoose.Types.ObjectId(req.query.agentId)}) /*.limit(pageSize).skip(pageSize *(page-1))*/ /**watch for if the farmers fetching will slow the dbs */
-
+   count = await Farmer.countDocuments({
+    $or: [
+      { agent_user_id: new mongoose.Types.ObjectId(agentId) },
+      { agentId }
+    ]
+  });
+  
+ farmers = await Farmer.find({
+    $or: [
+      { agent_user_id: new mongoose.Types.ObjectId(agentId) },
+      { agentId }
+    ]
+  });
 console.log("farmers FOR THIS AGENT is --->",farmers)
 
 console.log("count of farmer docs FOR THIS AGENT IS is --->",count)
