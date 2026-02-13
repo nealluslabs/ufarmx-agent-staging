@@ -231,17 +231,42 @@ export const calculateRetailerScore = (retailerInfo) => async (dispatch) => {
 
 
 
-export const addNewFarmer = (farmerInfo) => async (dispatch,getState) => {
-  
- // //console.log("ADDING NEW FARMERS")
-  axios.post(`${baseUrl}/api/farmers`,farmerInfo)
+export const addNewFarmer = (farmerInfo, navigate, setLoading) => async (dispatch,getState) => {
+  const payload = { ...farmerInfo };
+
+  if (!navigator.onLine) {
+    await enqueueHttpSubmission({
+      url: `${baseUrl}/api/farmers`,
+      payload,
+    });
+    notifySuccessFxn("Saved offline. Farmer will sync when you're online.");
+    if (setLoading) setLoading(false);
+    if (navigate) navigate('/dashboard/all-farmers-one-agent');
+    return;
+  }
+
+  axios.post(`${baseUrl}/api/farmers`, payload)
   .then(()=>{
    // //console.log("we have refetched all farmers")
    dispatch(fetchAllFarmers())
   }).then(()=>{
     notifySuccessFxn('Farmer Successfully Added!')
-  })
-
+    if (setLoading) setLoading(false);
+    if (navigate) navigate('/dashboard/all-farmers-one-agent');
+  }).catch(async (error) => {
+    if (!error?.response) {
+      await enqueueHttpSubmission({
+        url: `${baseUrl}/api/farmers`,
+        payload,
+      });
+      notifySuccessFxn("Connection lost. Farmer saved offline and will sync automatically.");
+      if (setLoading) setLoading(false);
+      if (navigate) navigate('/dashboard/all-farmers-one-agent');
+      return;
+    }
+    notifyErrorFxn("Could not add farmer, please try again");
+    if (setLoading) setLoading(false);
+  });
 }
 
 export const requestWelcomeEmail = (retailerInfo) => async (dispatch,getState) => {

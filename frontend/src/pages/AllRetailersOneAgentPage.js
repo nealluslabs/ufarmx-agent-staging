@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress } from '@mui/material';
+import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress, Chip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import { useTheme, styled } from '@mui/material/styles';
 
 import RetailerStatsLong from 'src/components/home/retailer-stats-long';
 import SmallCustomSearchBar from 'src/components/global/SmalllCustomSearchBar';
+import { getOutboxCount } from 'src/offline/outboxDb';
+import { syncOutboxNow } from 'src/offline/outboxSync';
 
 import { FaPlus } from 'react-icons/fa6';
 
@@ -64,6 +66,16 @@ export default function AllRetailersForOneAgentPage() {
   const [selectedFilter, setSelectedFilter] = useState(''); /**not using regular expressions here */
   const [selectedLocation, setSelectedLocation] = useState(/.*/ );
   const [loadingPage,setLoadingPage] = useState(false)
+  const [pendingOutboxCount, setPendingOutboxCount] = useState(0);
+
+  const refreshPendingOutboxCount = async () => {
+    try {
+      const count = await getOutboxCount();
+      setPendingOutboxCount(count);
+    } catch (error) {
+      setPendingOutboxCount(0);
+    }
+  };
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -71,6 +83,27 @@ export default function AllRetailersForOneAgentPage() {
     }
     ,1500)
     },[])
+
+  useEffect(() => {
+    refreshPendingOutboxCount();
+
+    const handleOnline = async () => {
+      await syncOutboxNow();
+      await refreshPendingOutboxCount();
+    };
+
+    window.addEventListener('online', handleOnline);
+    const timer = window.setInterval(refreshPendingOutboxCount, 15000);
+
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.clearInterval(timer);
+    };
+  }, []);
     
 
  /* const forcedId =  []
