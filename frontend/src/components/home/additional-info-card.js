@@ -2,14 +2,11 @@
 import {useState,useEffect} from 'react';
 import Typography from '@mui/material/Typography';
 // import Title from './title';
-import { Box, Button, Divider, Grid, Modal } from '@mui/material';
+import { Box, Button, Divider, Grid, Modal, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { fCurrency } from 'src/utils/formatNumber';
-import PieChartOne from './pie-chart-one';
-import PieChartTwo from './pie-chart-two';
-import redboy from 'src/assets/images/redboy.jpeg';
-import fakeMaps from 'src/assets/images/fake-maps.jpeg';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 import { fetchSpecificResponse } from 'src/redux/actions/group.action';
 
@@ -34,6 +31,7 @@ import AiSolutionsForm from '../aisolutions/aiSolutionsForm';
 import { saveFarmerInFocus, saveTotalPagesAgents } from 'src/redux/reducers/group.slice';
 import { IoAnalyticsSharp } from 'react-icons/io5';
 import { BsSpeedometer } from 'react-icons/bs';
+import InfoRow from './inforow';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -60,6 +58,9 @@ export default function AdditionalInfoCard({data,type,image,agentId,agentAddedId
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   function normalizeAge(ageValue) {
   
@@ -463,6 +464,7 @@ console.log("IMAGE IN ADDITIONAL CARD IS__>",image)
     <br/>
 
     {/* INFORMATION SECTION - KEEP EXACTLY AS ORIGINAL */}
+    {/**FOR NON MOBILE SCREENS */ !isMobile &&
     <Grid container sx={{ borderRadius: "1rem", background: "#FFF", color: "black", marginTop: "2rem", padding: "20px" }}>
       <Grid item xs={6}>
         <Typography color="textPrimary" variant="h6" component="p" style={{ color: '#000000', fontSize: '22.23px', fontWeight: "300" }}>
@@ -679,15 +681,15 @@ console.log("IMAGE IN ADDITIONAL CARD IS__>",image)
 
         <Box 
           sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
-          onClick={() => {
-            const username = data.name__first__last || data.name;
-            dispatch(fetchSpecificResponse(data._id))
-              .then((res) => { 
-                setTimeout(() => {
-                  navigate("/dashboard/view-response")
-                }, 2000);
-              })
-          }}
+          //onClick={() => {
+          //  const username = data.name__first__last || data.name;
+          //  dispatch(fetchSpecificResponse(data._id))
+          //    .then((res) => { 
+          //      setTimeout(() => {
+          //        navigate("/dashboard/view-response")
+          //      }, 2000);
+          //    })
+          //}}
         >
           <Box sx={{ justifySelf: "flex-end", marginRight: "10%", marginTop: "-5%", cursor: "pointer" }}>
             <CreateIcon />
@@ -695,6 +697,157 @@ console.log("IMAGE IN ADDITIONAL CARD IS__>",image)
         </Box>
       </Grid>
     </Grid>
+   /**NOT FOR MOBILE END */ }
+
+
+{/*FOR MOBILE SCREENS START*/ isMobile &&
+<Grid
+  container
+  sx={{
+    borderRadius: "1rem",
+    background: "#FFF",
+    color: "black",
+    mt: 4,
+    p: 3,
+  }}
+>
+  {/* HEADER */}
+  <Grid item xs={12} sx={{ mb: 3 }}>
+    <Typography
+      variant="h6"
+      sx={{ fontSize: { xs: "18px", md: "22px" }, fontWeight: 400 }}
+    >
+      Information
+    </Typography>
+  </Grid>
+
+  {/* LEFT SIDE - INFO */}
+  <Grid item xs={12} md={8}>
+    <Grid container spacing={3}>
+      {/* LEFT COLUMN */}
+      <Grid item xs={12} md={6}>
+        <Stack spacing={2}>
+          <InfoRow label="Age" value={data?.age ? normalizeAge(data.age.toString()) : "-"} />
+          <InfoRow label="Gender" value={data?.gender || "Male"} />
+          <InfoRow label="Phone" value={data?.phone || data?.phoneNumber || "+221772109382"} />
+          <InfoRow label="Family Size" value={data?.familySize || "7"} />
+          <InfoRow
+            label="GPS Stamp"
+            value={data?.gps || "-"}
+          />
+          <InfoRow label="ID Type" value={data?.idType || "-"} />
+          <InfoRow
+            label="Farming Experience"
+            value={
+              data?.experience ||
+              data?.farmingExperience ||
+              "5 years"
+            }
+          />
+        </Stack>
+      </Grid>
+
+      {/* RIGHT COLUMN */}
+      <Grid item xs={12} md={6}>
+        <Stack spacing={2}>
+          <InfoRow
+            label="Crops/Livestock"
+            value={
+              data?.produce ||
+              data?.crop_types ||
+              data?.what_crop_are_you_farming ||
+              data?.farmingCrop ||
+              data?.cropType ||
+              "Maize"
+            }
+          />
+          <InfoRow
+            label="Farm Size"
+            value={
+              data?.farmSize
+                ? `${data.farmSize} ${
+                    !data.farmSize.includes("hect") ? "Hectares" : ""
+                  }`
+                : "-"
+            }
+          />
+          <InfoRow
+            label="Sales Channels"
+            value={
+              data?.salesChannel ||
+              data?.whereDoYouSell ||
+              data?.market ||
+              "Market"
+            }
+          />
+          <InfoRow label="Insurance" value={data?.insurance || "None"} />
+          <InfoRow label="Irrigation" value={data?.irrigation ? "Yes" : "No"} />
+          <InfoRow
+            label="Chemicals Used"
+            value={
+              data?.chemicals &&
+              data.chemicals !== "yes" &&
+              data.chemicals !== "no"
+                ? data.chemicals
+                : data?.previousChemicals || "NPX-15-15-15"
+            }
+          />
+          <InfoRow
+            label="Challenges"
+            value={data?.challenges || data?.problem || "None for now"}
+            danger
+          />
+        </Stack>
+      </Grid>
+    </Grid>
+  </Grid>
+
+  {/* RIGHT SIDE - MAP */}
+  <Grid item xs={12} md={4} sx={{ mt: { xs: 4, md: 0 } }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: { xs: "300px", md: "500px" },
+        borderRadius: "1rem",
+        overflow: "hidden",
+      }}
+    >
+      <iframe
+        style={{
+          width: "100%",
+          height: "100%",
+          border: 0,
+        }}
+        src={`https://www.google.com/maps/embed/v1/place?q=${
+          data?.gps
+            ? `${data.gps.split(",")[0]},${data.gps.split(",")[1]}`
+            : "13.1383064,-14.1242743"
+        }&zoom=11&key=YOUR_GOOGLE_MAPS_KEY`}
+        allowFullScreen
+      />
+    </Box>
+  </Grid>
+
+  {/* EDIT ICON */}
+  <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+    <Box
+      sx={{ cursor: "pointer" }}
+     // onClick={() => {
+     //   dispatch(fetchSpecificResponse(data._id)).then(() => {
+     //     setTimeout(() => {
+     //       navigate("/dashboard/view-response");
+     //     }, 1000);
+     //   });
+     // }}
+    >
+      <CreateIcon />
+    </Box>
+  </Grid>
+</Grid>
+/*FOR MOBILE SCREENS END*/}
+
+
+
 
     <br />
   </Grid>
