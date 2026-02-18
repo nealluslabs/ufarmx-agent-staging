@@ -104,13 +104,13 @@ export default function Header({ onOpenNav }) {
         {/* <Searchbar /> */}
         {/* <Searchbar2 /> */}
         <Box sx={{ display:"flex" }} >
-        <Typography variant="h6" sx={{color: '#000000', fontSize: '16px',padding:"0.3rem",borderRadius:"50%",backgroundColor:"#F0F0F0" }}>
+        <Typography variant="h6" sx={{color: '#000000', fontSize: '16px',padding:"0.3rem",borderRadius:"50%",backgroundColor:"#F0F0F0",display:{xs:'none',md:'block'} }}>
         {/*user && user.userType === "business"?"Joe Thomas": user && user.lastName && user.firstName? user.lastName && user.firstName?user.firstName  + " " + user.lastName:"Norman Stevens":"Joe Thomas"*/} &nbsp;
         <FaRegBell />
         </Typography>
 
 
-        <Typography variant="h6" sx={{color: '#000000', fontSize: '16px',padding:"0.3rem",borderRadius:"50%",backgroundColor:"#F0F0F0",marginLeft:"1rem",marginRight:"1rem"}}>
+        <Typography variant="h6" sx={{color: '#000000', fontSize: '16px',padding:"0.3rem",borderRadius:"50%",backgroundColor:"#F0F0F0",marginLeft:"1rem",marginRight:"1rem",display:{xs:'none',md:'block'}}}>
         {/*user && user.userType === "business"?"Joe Thomas": user && user.lastName && user.firstName? user.lastName && user.firstName?user.firstName  + " " + user.lastName:"Norman Stevens":"Joe Thomas"*/} &nbsp;
         <BsChatText />
         </Typography>

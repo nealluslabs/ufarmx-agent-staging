@@ -222,7 +222,7 @@ console.log('all retailers ============>>>>>>>>>>>-->', allRetailers);
       ) : (
         <Container maxWidth="xl">
           {/* Header */}
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt:{xs:6} }}>
             <Box>
               <Typography variant="h4" sx={{ fontWeight: 700, color: '#101828' }}>
                 Retailers

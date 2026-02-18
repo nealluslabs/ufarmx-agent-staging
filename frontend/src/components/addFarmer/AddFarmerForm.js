@@ -162,20 +162,26 @@ const generatedString =uuidv4()
 
   return (
     <>
-      <form onSubmit={userSignup}>
+      <form onSubmit={userSignup} style={{ width: '100%' }}>
 
 { 
 <>
 
-     <Grid container xs={12} spacing={2} style={{width:"1100px",display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}>  
+     <Grid
+       container
+       xs={12}
+       spacing={2}
+       sx={{ width: { xs: '100%', md: '1100px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box' }}
+       style={{display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}
+     >  
       
-     <Grid item xs={5} > 
+     <Grid item xs={12} sm={12} md={5} > 
        <Stack spacing={3} >
        
-       <TextField name="firstName" required label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+       <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="firstName" required label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
 
 
-       <FormControl sx={{ minWidth: 140, background: 'white' }}>
+       <FormControl sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { xs: 0, md: 140 }, background: 'white' }}>
          <Select
            value={gender}
            onChange={(e) => setGender(e.target.value)}
@@ -183,7 +189,8 @@ const generatedString =uuidv4()
            label=""
            sx={{
              height: 45,
-             minWidth: 140,
+             minWidth: { xs: 0, md: 140 },
+             width: { xs: '100%', md: 'auto' },
              p: 1,
            }}
          >
@@ -197,7 +204,7 @@ const generatedString =uuidv4()
          </Select>
        </FormControl>
         
-        <FormControl sx={{ minWidth: 140, background: 'white' }}>
+        <FormControl sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { xs: 0, md: 140 }, background: 'white' }}>
          <Select
            value={produce}
            onChange={(e) => setProduce(e.target.value)}
@@ -205,7 +212,8 @@ const generatedString =uuidv4()
            label=""
            sx={{
              height: 45,
-             minWidth: 140,
+             minWidth: { xs: 0, md: 140 },
+             width: { xs: '100%', md: 'auto' },
              p: 1,
            }}
          >
@@ -221,7 +229,7 @@ const generatedString =uuidv4()
        </FormControl>
 
 
-       <TextField name="farmSize" required label="Farm size" value={farmSize} onChange={(e) => setFarmSize(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+       <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="farmSize" required label="Farm size" value={farmSize} onChange={(e) => setFarmSize(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
         
         <div style={{position:"relative"}}>
         <TextField style={{backgroundColor:"white"}}
@@ -275,21 +283,21 @@ const generatedString =uuidv4()
       </Grid> 
 
      
-     <Grid item xs={5} style={{marginTop:"-1.5rem"}}> 
+     <Grid item xs={12} sm={12} md={5} style={{marginTop:"-1.5rem"}}> 
       <Stack spacing={3} >
        
-      <TextField name="lname" required label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
-        <TextField name="age" required label="Age" type="text"  value={age} placeholder='' onChange={(e) => setAge(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+      <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="lname" required label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+        <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="age" required label="Age" type="text"  value={age} placeholder='' onChange={(e) => setAge(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
         
       
 
-        <TextField name="phone" required label="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+        <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="phone" required label="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
        
-        <TextField name="familySize" required label="Family size"  value={familySize} onChange={(e) => setFamilySize(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+        <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="familySize" required label="Family size"  value={familySize} onChange={(e) => setFamilySize(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
       
       
          
-        <FormControl style={{ minWidth: 140, background: 'white'}}> {/**this one does not show, it is for evening out the rows */}
+        <FormControl sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { xs: 0, md: 140 }, background: 'white'}}> {/**this one does not show, it is for evening out the rows */}
          <Select
            value={countryState}
            
@@ -298,7 +306,8 @@ const generatedString =uuidv4()
            label=""
            sx={{
              height: 45,
-             minWidth: 140,
+             minWidth: { xs: 0, md: 140 },
+             width: { xs: '100%', md: 'auto' },
              p: 1,
            }}
          >
@@ -339,15 +348,21 @@ const generatedString =uuidv4()
 
 <>
 
-     <Grid container xs={12} spacing={2} style={{width:"1100px",display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}>  
+     <Grid
+       container
+       xs={12}
+       spacing={2}
+       sx={{ width: { xs: '100%', md: '1100px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box' }}
+       style={{display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}
+     >  
       
-     <Grid item xs={5} > 
-       <Stack spacing={3} >
+     <Grid item xs={12} sm={12} md={5} > 
+      <Stack spacing={3} >
        
-       <TextField name="market" required label="Market" value={market} onChange={(e) => setMarket(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+       <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="market" required label="Market" value={market} onChange={(e) => setMarket(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
 
 
-       <FormControl sx={{ minWidth: 140, background: 'white' }}>
+       <FormControl sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { xs: 0, md: 140 }, background: 'white' }}>
          <Select
            value={organicFarmingInterest}
            onChange={(e) => setOrganicFarmingInterest(e.target.value)}
@@ -355,7 +370,8 @@ const generatedString =uuidv4()
            label=""
            sx={{
              height: 45,
-             minWidth: 140,
+             minWidth: { xs: 0, md: 140 },
+             width: { xs: '100%', md: 'auto' },
              p: 1,
            }}
          >
@@ -374,11 +390,11 @@ const generatedString =uuidv4()
       </Grid> 
 
      
-     <Grid item xs={5} style={{marginTop:"0rem"}}> 
+     <Grid item xs={12} sm={12} md={5} style={{marginTop:"0rem"}}> 
       <Stack spacing={3} >
        
-      <TextField name="chemicals" required label="chemicals" value={chemicals} onChange={(e) => setChemicals(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
-        <TextField name="insurance" required label="Insurance" type="text"  value={insurance} placeholder='' onChange={(e) => setInsurance(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+      <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="chemicals" required label="chemicals" value={chemicals} onChange={(e) => setChemicals(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
+        <TextField sx={{ width: { xs: '100%', md: 'auto' } }} name="insurance" required label="Insurance" type="text"  value={insurance} placeholder='' onChange={(e) => setInsurance(e.target.value)} InputProps={{ style:{height:"3rem",paddingLeft:"1rem"}}}/>
       
       
 
@@ -407,7 +423,7 @@ const generatedString =uuidv4()
       <LoadingButton 
         
         
-        size="large" type="submit" variant="contained" disabled={false} style={{ width:"33rem",color: 'white',backgroundColor: '#21712E',borderRadius:"5rem",}}>
+        size="large" type="submit" variant="contained" disabled={false} sx={{ width: { xs: '100%', sm: '100%', md: '33rem' } }} style={{ color: 'white',backgroundColor: '#21712E',borderRadius:"5rem",}}>
        
         {loading ? "Loading..." : "Submit"}
       </LoadingButton>

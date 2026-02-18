@@ -94,6 +94,7 @@ export default function LoginPage() {
         <title>UfarmX</title>
       </Helmet>
 
+      <Box sx={{ width: '100%', overflowX: 'hidden' }}>
       <StyledRoot>
         {/* Left Side */}
         <StyledLeftContainer />
@@ -223,6 +224,7 @@ export default function LoginPage() {
           </StyledFooterText>
         </StyledRightContainer>
       </StyledRoot>
+      </Box>
     </>
   );
 }

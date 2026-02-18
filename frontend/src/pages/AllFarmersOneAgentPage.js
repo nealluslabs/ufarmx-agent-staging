@@ -219,7 +219,15 @@ useEffect(()=>{
       <CircularProgress/>
      </center>
   :
-      <Container maxWidth="xl" style={{scale:"0.9",position:"relative",top:"-2rem",left:"-2rem"}} >
+      <Container
+        maxWidth="xl"
+        sx={{
+          scale: { xs: 1, sm: 1, md: 0.9 },
+          position: 'relative',
+          top: { xs: 0, sm: 0, md: '-2rem' },
+          left: { xs: 0, sm: 0, md: '-2rem' },
+        }}
+      >
       
    
       <Grid container spacing={2} alignItems="center" justifyContent="flex-start" style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",marginTop:"0.3rem",paddingRight:"0rem"}}> 

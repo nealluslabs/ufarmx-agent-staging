@@ -73,10 +73,11 @@ export default function AddNewRetailerPage() {
         <title> UfarmX</title>
       </Helmet>
 
+      <Box sx={{ width: '100%', overflowX: 'hidden' }}>
       <StyledRoot style={{ flexDirection: 'row-reverse' }}>
       
 
-        <Container maxWidth="sm" style={{ border: '0px solid red', flex: 2 }}>
+        <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 } }} style={{ border: '0px solid red', flex: 2 }}>
           
       { /*
         <div  onClick ={()=>{navigate('/')}} style={{fontSize:"2rem",color:"white",fontWeight:"900",color:"#21712E",position:"absolute",top:"1rem",left:"1rem",cursor:"pointer"}}>
@@ -90,7 +91,7 @@ export default function AddNewRetailerPage() {
           <StyledContent>
          
           
-             <Box sx={{minWidth:{md:"1200px", xs: '100%'},maxWidth:"1200px",display:"flex",alignItems:"flex-start",justifyContent:"center",marginTop:"-5rem"}}>
+             <Box sx={{minWidth:{md:"1200px", xs: '100%'},maxWidth:"1200px",display:"flex",alignItems:"flex-start",justifyContent:"center",marginTop:{ xs: 0, md: "-5rem" }}}>
             
             <AddNewRetailerForm />
             </Box>
@@ -100,6 +101,7 @@ export default function AddNewRetailerPage() {
           </StyledContent>
         </Container>
       </StyledRoot>
+      </Box>
     </>
   );
 }

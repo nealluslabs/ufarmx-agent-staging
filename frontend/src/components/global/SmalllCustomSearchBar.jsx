@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   searchInput: {
     background: '#F5F5F5',

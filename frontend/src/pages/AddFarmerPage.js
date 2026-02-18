@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Link, Container, Typography, Divider, Stack, Button, Box } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 
@@ -62,10 +62,11 @@ export default function AddFarmerPage() {
         <title> UfarmX</title>
       </Helmet>
 
+      <Box sx={{ width: '100%', overflowX: 'hidden' }}>
       <StyledRoot style={{ flexDirection: 'row-reverse' }}>
       
 
-        <Container maxWidth="sm" style={{ border: '0px solid red', flex: 2 }}>
+        <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 } }} style={{ border: '0px solid red', flex: 2 }}>
           
       { /*
         <div  onClick ={()=>{navigate('/')}} style={{fontSize:"2rem",color:"white",fontWeight:"900",color:"#21712E",position:"absolute",top:"1rem",left:"1rem",cursor:"pointer"}}>
@@ -79,16 +80,17 @@ export default function AddFarmerPage() {
           <StyledContent>
          
           
-             <div style={{minWidth:"1200px",maxWidth:"1200px",display:"flex",alignItems:"flex-start",justifyContent:"center",marginTop:"-5rem"}}>
+             <Box sx={{ minWidth: { xs: '100%', md: '1200px' }, maxWidth: '1200px', mt: { xs: 0, md: '-5rem' } }} style={{display:"flex",alignItems:"flex-start",justifyContent:"center"}}>
             
             <AddFarmerForm />
-            </div>
+            </Box>
           
           
           
           </StyledContent>
         </Container>
       </StyledRoot>
+      </Box>
     </>
   );
 }

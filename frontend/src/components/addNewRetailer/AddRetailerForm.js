@@ -859,8 +859,8 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
               container
               xs={12}
               spacing={2}
+              sx={{ width: { xs: '100%', md: '1100px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box' }}
               style={{
-                width: '1100px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1528,8 +1528,8 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
               container
               xs={12}
               spacing={2}
+              sx={{ width: { xs: '100%', md: '1100px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box' }}
               style={{
-                width: '1100px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -2436,7 +2436,8 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
             container
             xs={12}
             spacing={2}
-            style={{ width: '1100px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4rem' }}
+            sx={{ width: { xs: '100%', md: '1100px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4rem' }}
           >
             <Grid
               item
