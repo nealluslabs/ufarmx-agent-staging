@@ -896,16 +896,350 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
               </>
 
               <>
+                <Box sx={{ display: { xs: 'block', md: 'none' }, width: '100%' }}>
+                  <Stack
+                    spacing={3}
+                    sx={{
+                      minHeight: '100%',
+                      paddingTop: '0rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: '-3rem',
+                    }}
+                  >
+                    <TextField
+                      label={'First Name'}
+                      inputProps={{ tabIndex: getTabIndex(0, 0) }}
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      name="firstName"
+                      error={missingFieldKeys.includes('firstName')}
+                      helperText={missingFieldKeys.includes('firstName') ? 'This field is required' : ''}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label={'Last Name'}
+                      name="lastName"
+                      error={missingFieldKeys.includes('lastName')}
+                      helperText={missingFieldKeys.includes('lastName') ? 'This field is required' : ''}
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{ tabIndex: getTabIndex(0, 1) }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label={'Email'}
+                      name="email"
+                      error={missingFieldKeys.includes('email')}
+                      helperText={missingFieldKeys.includes('email') ? 'This field is required' : ''}
+                      value={formData.email}
+                      type={'email'}
+                      onChange={handleChange}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{ tabIndex: getTabIndex(3, 0) }}
+                      InputProps={{
+                        style: { height: '3rem', paddingLeft: '1rem', color: 'gray', backgroundColor: '#F9FAFB', paddingRight: '1rem' },
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label={'Phone Number'}
+                      name="phone"
+                      error={missingFieldKeys.includes('phone')}
+                      helperText={missingFieldKeys.includes('phone') ? 'This field is required' : ''}
+                      value={formData.phone}
+                      type={'text'}
+                      onChange={handleChange}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{ tabIndex: getTabIndex(3, 0) }}
+                      InputProps={{
+                        style: { height: '3rem', paddingLeft: '1rem', color: 'gray', backgroundColor: '#F9FAFB', paddingRight: '1rem' },
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label={'Address'}
+                      name="address"
+                      error={missingFieldKeys.includes('address')}
+                      helperText={missingFieldKeys.includes('address') ? 'This field is required' : ''}
+                      inputProps={{ tabIndex: getTabIndex(1, 0) }}
+                      value={formData.address}
+                      onChange={handleChange}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <FormControl sx={{ width: '100%', maxWidth: { xs: '20rem' } }} variant="outlined">
+                      <InputLabel id="mobile-nationality-label" shrink>
+                        Nationality
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '0.5rem', width: '100%', height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' }}
+                        inputProps={{ tabIndex: getTabIndex(4, 1) }}
+                        labelId="mobile-nationality-label"
+                        value={formData.nationality}
+                        label=""
+                        displayEmpty
+                        name="nationality"
+                        error={missingFieldKeys.includes('nationality')}
+                        renderValue={(selected) => {
+                          if (selected.length === 0) return <em style={{ color: 'lightgray' }} />;
+                          return selected;
+                        }}
+                        onChange={handleChange}
+                      >
+                        <MenuItem disabled value={''}>
+                          Nationality
+                        </MenuItem>
+                        <MenuItem value={'Nigeria'}>Nigeria</MenuItem>
+                      </Select>
+                      {missingFieldKeys.includes('nationality') && <FormHelperText style={{ color: 'red' }}>This field is required</FormHelperText>}
+                    </FormControl>
+                    <div style={{ marginBottom: '1.4rem' }}>
+                      <div style={inputContainer2}>
+                        <div>Gender: </div>
+                        <FormControl error={missingFieldKeys.includes('gender')} style={{ position: 'relative', left: '-0rem', top: '-0rem', scale: '0.9' }}>
+                          <RadioGroup
+                            row
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            style={{ color: 'grey' }}
+                          >
+                            <FormControlLabel value="male" control={<Radio style={{ color: 'grey' }} />} label={<Typography style={{ fontFamily: 'Public Sans, sans-serif' }}>Male</Typography>} />
+                            <FormControlLabel value="female" control={<Radio style={{ color: 'grey' }} />} label={<Typography style={{ fontFamily: 'Public Sans, sans-serif' }}>Female</Typography>} />
+                          </RadioGroup>
+                          {missingFieldKeys.includes('gender') && <FormHelperText>This field is required</FormHelperText>}
+                        </FormControl>
+                      </div>
+                    </div>
+                    <FormControl sx={{ width: '100%', maxWidth: { xs: '20rem' } }} variant="outlined">
+                      <InputLabel id="mobile-state-label" shrink>
+                        State of Origin
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '0.5rem', width: '100%', height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' }}
+                        inputProps={{ tabIndex: getTabIndex(4, 1) }}
+                        labelId="mobile-state-label"
+                        value={formData.state}
+                        label=""
+                        name="state"
+                        error={missingFieldKeys.includes('state')}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (selected.length === 0) return <em style={{ color: 'lightgray' }} />;
+                          return selected;
+                        }}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setSelectedState(e.target.value);
+                        }}
+                      >
+                        <MenuItem disabled value={''}>
+                          State of Origin
+                        </MenuItem>
+                        {nigeriaData.map((item) => (
+                          <MenuItem key={item.state} value={item.state}>
+                            {item.state}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {missingFieldKeys.includes('state') && <FormHelperText style={{ color: 'red' }}>This field is required</FormHelperText>}
+                    </FormControl>
+                    <FormControl sx={{ width: '100%', maxWidth: { xs: '20rem' } }} variant="outlined">
+                      <InputLabel id="mobile-lga-label" shrink>
+                        Local Government Area
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '0.5rem', width: '100%', height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' }}
+                        inputProps={{ tabIndex: getTabIndex(4, 1) }}
+                        labelId="mobile-lga-label"
+                        value={formData.lga}
+                        label=""
+                        displayEmpty
+                        name="lga"
+                        error={missingFieldKeys.includes('lga')}
+                        renderValue={(selected) => {
+                          if (selected.length === 0) return <em style={{ color: 'lightgray' }} />;
+                          return selected;
+                        }}
+                        onChange={handleChange}
+                      >
+                        <MenuItem disabled value={''}>
+                          Local Government Area
+                        </MenuItem>
+                        {selectedStateData?.lgas?.map((lga) => (
+                          <MenuItem key={lga} value={lga}>
+                            {lga}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {missingFieldKeys.includes('lga') && <FormHelperText style={{ color: 'red' }}>This field is required</FormHelperText>}
+                    </FormControl>
+                    <FormControl error={missingFieldKeys.includes('idType')} sx={{ width: '100%', maxWidth: { xs: '20rem' } }} variant="outlined">
+                      <InputLabel id="mobile-idtype-label" shrink>
+                        Means of ID
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '0.5rem', width: '100%', height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' }}
+                        inputProps={{ tabIndex: getTabIndex(4, 1) }}
+                        labelId="mobile-idtype-label"
+                        value={formData.idType}
+                        label=""
+                        name="idType"
+                        error={missingFieldKeys.includes('idType')}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (selected.length === 0) return <em style={{ color: 'lightgray' }} />;
+                          return selected;
+                        }}
+                        onChange={handleChange}
+                      >
+                        <MenuItem disabled value={''}>
+                          ID Type
+                        </MenuItem>
+                        <MenuItem value={'passport'}>Passport</MenuItem>
+                        <MenuItem value={'national Identification'}>National Identification</MenuItem>
+                        <MenuItem value={'drivers License'}>Drivers License</MenuItem>
+                      </Select>
+                      {missingFieldKeys.includes('idType') && <FormHelperText style={{ color: 'red' }}>This field is required</FormHelperText>}
+                    </FormControl>
+                    <TextField
+                      label="Date of Birth"
+                      type="date"
+                      name="age"
+                      value={formData.age}
+                      inputProps={{ tabIndex: getTabIndex(2, 0) }}
+                      onChange={handleChange}
+                      error={missingFieldKeys.includes('age')}
+                      helperText={missingFieldKeys.includes('age') ? 'This field is required' : ''}
+                      sx={{ color: 'black', width: '100%', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'gray', backgroundColor: '#F9FAFB', paddingRight: '1rem' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label={'NIN'}
+                      name="nin"
+                      error={missingFieldKeys.includes('nin')}
+                      helperText={missingFieldKeys.includes('nin') ? 'This field is required' : ''}
+                      value={formData.nin}
+                      type={'string'}
+                      onChange={handleChange}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{ tabIndex: getTabIndex(3, 0) }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'gray', backgroundColor: '#F9FAFB', paddingRight: '1rem' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <FormControl sx={{ width: '100%', maxWidth: { xs: '20rem' } }} variant="outlined">
+                      <InputLabel id="mobile-utilitytype-label" shrink>
+                        Select Utility Type
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '0.5rem', width: '100%', height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' }}
+                        inputProps={{ tabIndex: getTabIndex(4, 1) }}
+                        labelId="mobile-utilitytype-label"
+                        value={formData.utilityType}
+                        label=""
+                        name="utilityType"
+                        error={missingFieldKeys.includes('utilityType')}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (selected.length === 0) return <em style={{ color: 'lightgray' }} />;
+                          return selected;
+                        }}
+                        onChange={handleChange}
+                      >
+                        <MenuItem disabled value={''}>
+                          Select Utility Type
+                        </MenuItem>
+                        <MenuItem value={'Prepaid'}>Prepaid</MenuItem>
+                        <MenuItem value={'Postpaid'}>Postpaid</MenuItem>
+                      </Select>
+                      {missingFieldKeys.includes('utilityType') && <FormHelperText style={{ color: 'red' }}>This field is required</FormHelperText>}
+                    </FormControl>
+                    <TextField
+                      label={'Meter Number'}
+                      value={formData.meter}
+                      type={'string'}
+                      onChange={handleChange}
+                      name="meter"
+                      error={missingFieldKeys.includes('meter')}
+                      helperText={missingFieldKeys.includes('meter') ? 'This field is required' : ''}
+                      sx={{ color: 'black', maxWidth: { xs: '20rem' } }}
+                      InputLabelProps={{ shrink: true }}
+                      inputProps={{ tabIndex: getTabIndex(3, 0) }}
+                      InputProps={{ style: { height: '3rem', paddingLeft: '1rem', color: 'gray', backgroundColor: '#F9FAFB', paddingRight: '1rem' } }}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Box sx={{ width: '100%', maxWidth: { xs: '20rem' } }}>
+                      <Typography variant="body2" sx={{ mb: 1 }}>
+                        Utility Bill
+                      </Typography>
+                      <UploadBox
+                        title="Upload your Utility Bill"
+                        docType="utilityBill"
+                        currentFile={docs.utilityBill}
+                        error={missingFieldKeys.includes('utilityBill')}
+                        helperText={missingFieldKeys.includes('utilityBill') ? 'This field is required' : ''}
+                      />
+                    </Box>
+                    <Box sx={{ width: '100%', maxWidth: { xs: '20rem' } }}>
+                      <Typography variant="body2" sx={{ mb: 1 }}>
+                        ID Document
+                      </Typography>
+                      <UploadBox
+                        title="Upload Clear photo of your ID"
+                        docType="idDocument"
+                        currentFile={docs.idDocument}
+                        error={missingFieldKeys.includes('idDocument')}
+                        helperText={missingFieldKeys.includes('idDocument') ? 'This field is required' : ''}
+                      />
+                    </Box>
+                  </Stack>
+                </Box>
                 <Grid
                   container
                   sx={{
-                    display: 'flex',
+                    display: { xs: 'none', md: 'flex' },
                     justifyContent: 'center',
                     flexDirection: { xs: 'column', sm: 'row' },
                     gap: { md: '3rem' },
                   }}
                 >
-                  <Grid item sm={fields && fields.length < 2 ? 12 : 5} xs={12}>
+                  <Grid
+                    item
+                    sm={fields && fields.length < 2 ? 12 : 5}
+                    xs={12}
+                    
+                  >
                     <Stack
                       spacing={3}
                       sx={{
@@ -918,7 +1252,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                       }}
                     >
                       <TextField
-                        key={'firstName'}
                         label={'First Name'}
                         inputProps={{ tabIndex: getTabIndex(0, 0) }}
                         value={formData.firstName}
@@ -928,7 +1261,10 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                          helperText={
                            missingFieldKeys.includes('firstName') ? 'This field is required' : ''
                          }
-                        sx={{ color: 'black', maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' } }}
+                        sx={{
+                          color: 'black',
+                          maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+                        }}
                         InputLabelProps={{ shrink: true }}
                         InputProps={{
                           style: { height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' },
@@ -939,7 +1275,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                       />
 
                       <TextField
-                        key={'promptKey'}
                         label={'Email'}
                         name="email"
                         error={missingFieldKeys.includes('email')}
@@ -949,7 +1284,10 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         value={formData.email}
                         type={'email'}
                         onChange={handleChange}
-                        sx={{ color: 'black', maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' } }}
+                        sx={{
+                          color: 'black',
+                          maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+                        }}
                         InputLabelProps={{ shrink: true }}
                         inputProps={{ tabIndex: getTabIndex(3, 0) }}
                         InputProps={{
@@ -966,7 +1304,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         margin="normal"
                       />
                       <TextField
-                        key={'promptKey'}
                         label={'Address'}
                         name="address"
                         error={missingFieldKeys.includes('address')}
@@ -976,7 +1313,10 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         inputProps={{ tabIndex: getTabIndex(1, 0) }}
                         value={formData.address}
                         onChange={handleChange}
-                        sx={{ color: 'black', maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' } }}
+                        sx={{
+                          color: 'black',
+                          maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+                        }}
                         InputLabelProps={{ shrink: true }}
                         InputProps={{
                           style: { height: '3rem', paddingLeft: '1rem', color: 'black', backgroundColor: '#F9FAFB' },
@@ -1190,7 +1530,7 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                     </Stack>
                   </Grid>
 
-                  <Grid item xs={12} sm={5}>
+                  <Grid item xs={12} sm={5} >
                     <Stack
                       spacing={3}
                       sx={{
@@ -1203,7 +1543,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                       }}
                     >
                       <TextField
-                        key={'promptKey'}
                         label={'Last Name'}
                         name="lastName"
                         error={missingFieldKeys.includes('lastName')}
@@ -1212,7 +1551,10 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                           }
                         value={formData.lastName}
                         onChange={handleChange}
-                        sx={{ color: 'black', maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' } }}
+                        sx={{
+                          color: 'black',
+                          maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+                        }}
                         InputLabelProps={{ shrink: true }}
                         inputProps={{ tabIndex: getTabIndex(0, 1) }}
                         InputProps={{
@@ -1223,7 +1565,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         margin="normal"
                       />
                       <TextField
-                        key={'promptKey'}
                         label={'Phone Number'}
                         name="phone"
                         error={missingFieldKeys.includes('phone')}
@@ -1233,7 +1574,10 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         value={formData.phone}
                         type={'text'}
                         onChange={handleChange}
-                        sx={{ color: 'black', maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' } }}
+                        sx={{
+                          color: 'black',
+                          maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+                        }}
                         InputLabelProps={{ shrink: true }}
                         inputProps={{ tabIndex: getTabIndex(3, 0) }}
                         InputProps={{
@@ -1425,7 +1769,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         </FormControl>
                       }
                       <TextField
-                        key={'promptKey'}
                         label={'NIN'}
                         name="nin"
                         error={missingFieldKeys.includes('nin')}
@@ -1456,7 +1799,6 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                         margin="normal"
                       />
                       <TextField
-                        key={'promptKey'}
                         label={'Meter Number'}
                         value={formData.meter}
                         type={'string'}
@@ -1547,7 +1889,7 @@ if(allOptionalFieldsFilled && missingFields.length === 0){ //ALL FIELDS INCLUDIN
                 <Divider sx={{ width: '100%', backgroundColor: '#90C434', marginBottom: '1rem' }} />
 
                 <Grid container spacing={3}>
-                  <Grid item xs={8} sm={6}>
+                  <Grid item xs={12} sm={6}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       Business Name
                     </Typography>
