@@ -1572,7 +1572,7 @@ else{
 
 
 
-<Grid item  xs={12} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
+<Grid item  xs={11} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
    <TextField
           key={"Challenges"}
           label={'Challenges'}
@@ -1773,9 +1773,9 @@ else{
              <FormControl
                style={{
                  position: "relative",
-                //  left: "-0rem",
+                 left: "-0rem",
                  top: "-0rem",
-                //  scale: "0.9",
+                 scale: "0.97",
                  width:"100%"
                }}
              >
@@ -1844,7 +1844,7 @@ else{
                  position: "relative",
                  left: "-0rem",
                  top: "-0rem",
-                 scale: "1",
+                 scale: "0.97",
                  width:"100%"
                }}
              >
