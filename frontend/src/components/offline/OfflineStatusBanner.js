@@ -92,9 +92,9 @@ export default function OfflineStatusBanner() {
           sx={{
             width: 'fit-content',
             position: isDashboardRoute? 'fixed': 'none',
-            top: 26,
-            left: { xs: 16, lg: isDashboardRoute ? 870 : 16 },
-            right: 16,
+            bottom: {xs:0, lg:26},
+            left: { xs: 185, lg: isDashboardRoute ? 870 : 16 },
+            right: {xs: 15, lg:16,},
             zIndex: 1301,
           }}
         />

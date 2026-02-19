@@ -98,9 +98,9 @@ export default function LoginForm() {
            border: '1px solid black',borderRadius:"0.5rem", color: 'white',fontWeight:"400"}}>
         {loading ? "Loading..." : "Sign In"}
       </LoadingButton>
-      {/* <Grid item xs={12} md={12} sx={{ mt: 2 }}>
+      <Grid item xs={12} md={12} sx={{ mt: 2 }}>
         <InstallAppPrompt />
-      </Grid> */}
+      </Grid>
       </form>
     </>
   );

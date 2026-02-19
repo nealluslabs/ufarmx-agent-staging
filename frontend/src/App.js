@@ -26,7 +26,7 @@ export default function App() {
             pauseOnHover
           />
       <ScrollToTop />
-      {/* <OfflineStatusBanner /> */}
+      <OfflineStatusBanner />
       <StyledChart />
       <Router />
     </ThemeProvider>
