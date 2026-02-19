@@ -117,8 +117,8 @@ export default function FarmerIntakeForm() {
   
   const mobileFieldWidthSx = {
     width: '100%',
-    maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
-    alignSelf: { xs: 'center', sm: 'flex-start' },
+    maxWidth: { xs: '100%', sm: '70%', md: '80%', lg: '100%' },
+    alignSelf: { xs: 'flex-start', sm: 'flex-start' },
   };
 
 
@@ -471,14 +471,14 @@ else{
        container
        xs={12}
        spacing={2}
-       sx={{ width: { xs: '100%', md: '1000px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box', mt: {xs:2} }}
+       sx={{ width: { xs: '100%', md: '1000px' }, px: { xs: 0, sm: 2, md: 0 }, boxSizing: 'border-box', mt: {xs:2} }}
        style={{display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}
      >  
     
     
     
       <>
-     <Grid item xs={12}style={{maxWidth:{md:"1000px", xs:'100%'},width:"100%",display:"flex",flexDirection:"column",alignItems:"flex-start", justifyContent:"center"}}>
+     <Grid item xs={12}style={{maxWidth:{md:"1000px", xs:'100%'},width:{md:"100%", sm: '210%'},display:"flex",flexDirection:"column",alignItems:"flex-start", justifyContent:"center"}}>
           <Typography color="textPrimary" variant="p" component="p" style={{ color: '#000000',position:"relative" }}>
             Farmer's Personal Information
           </Typography>
@@ -521,9 +521,9 @@ else{
 
    <>
 
-   <Grid container sx={{display:"flex",justifyContent:"center",flexDirection:{xs:"column",sm:"row"},gap:{md:"3rem"},alignItems: { xs: "center", sm: "flex-start" },}}>
-     <Grid item sm={fields && fields.length < 2 ?12:5 }  xs={12}   > 
-       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}}  >
+   <Grid container sx={{display:"flex",justifyContent:"center",flexDirection:{xs:"column",sm:"row"},gap:{md:"3rem"},alignItems: { xs: "flex-start", sm: "flex-start" }, pl:{xs:2}}}>
+     <Grid item sm={fields && fields.length < 2 ?12:5 }  xs={12} sx={{width: {xs: '100%'}}}   > 
+       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start",sm:"flex-start"},justifyContent:"center"}}  >
    
 
 
@@ -531,7 +531,7 @@ else{
           label={'First Name'}
           value={firstName}
           onChange={(e)=>{setFirstName(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -546,7 +546,7 @@ else{
           label={'Last Name'}
           value={lastName}
           onChange={(e)=>{setLastName(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -561,7 +561,7 @@ else{
           label={'Other Names'}
           value={otherNames}
           onChange={(e)=>{setOtherNames(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -576,7 +576,7 @@ else{
           type="date"
           value={age}
           onChange={(e) => setAge(e.target.value)}
-          sx={{ color: 'black',width:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',width:{xs:"100%",sm:"100%",md:"80%",lg:"100%"},height:"4rem" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -588,7 +588,7 @@ else{
 
 
 { isMobile && <Select  
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -622,7 +622,7 @@ else{
 
         {isMobile &&
           <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
         
@@ -660,7 +660,7 @@ else{
           value={noOfSpouse}
           
           onChange={(e)=>{setNoOfSpouse(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true , 
          
          }}
@@ -675,7 +675,7 @@ else{
 
 
     {isMobile && <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -717,7 +717,7 @@ else{
           value={noOfSpouse}
           
           onChange={(e)=>{setNoOfSpouse(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true , 
          
          }}
@@ -732,7 +732,7 @@ else{
         
 
 
-             <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"3.2rem" }}>
+             <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'flex-start', sm: 'flex-start' }, marginTop:"3.2rem" }}>
                    ID (Government Identification)*
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -756,7 +756,7 @@ else{
 
 
                 {isMobile && <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -792,7 +792,7 @@ else{
 
 
 
-                <Box sx={{ width: { xs: '100%', sm: '70%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"1rem" }}>
+                <Box sx={{ width: { xs: '100%', sm: '70%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'flex-start', sm: 'flex-start' }, marginTop:"1rem" }}>
                    Do you have a smartphone ?*
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -818,7 +818,7 @@ else{
 
                 {isMobile &&
 
-<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}  }}>
+<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%"  }}>
 <PhoneInput
   country={'us'} // Default country (you can change to any valid country code)
   value={phone}
@@ -860,7 +860,7 @@ else{
           label={'Last Name'}
           value={lastName}
           onChange={(e)=>{setLastName(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          sx={{ color: 'black',maxWidth:"100%",height:"4rem" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -872,7 +872,7 @@ else{
         )}
 
 { !isMobile && <Select  
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -908,7 +908,7 @@ else{
 
  
 {!isMobile && <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
         
@@ -945,7 +945,7 @@ else{
 
         
  {!isMobile && <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -981,7 +981,7 @@ else{
 
  
 {!isMobile && <Select
-          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%", backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1015,7 +1015,7 @@ else{
 
         {!isMobile &&
 
-<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}  }}>
+<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:"100%"  }}>
 <PhoneInput
   country={'us'} // Default country (you can change to any valid country code)
   value={phone}
@@ -1091,12 +1091,12 @@ else{
           <Divider sx={{width:"100%", backgroundColor:"#90C434"}}/>
   </Grid>
 
-  <Grid container spacing={2} xs={12} sx={{display:"flex",alignItems:"center",flexDirection:{xs:"column",sm:"row"},justifyContent:"center",gap:"2rem", alignItems: { xs: "center", sm: "flex-start" }, width: { xs: '100%', sm: 'auto' }}} > 
-    <Grid item xs={12} sm={5} > 
-       <Stack spacing={3}   sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
+  <Grid container spacing={2} xs={12} sx={{display:"flex",alignItems:"flex-start",flexDirection:{xs:"column",sm:"row"},justifyContent:"center",gap:"2rem", alignItems: { xs: "flex-start", sm: "flex-start" }, width: { xs: '110%', }}} > 
+    <Grid item xs={12} sm={5} sx={{width:{xs:'100%'}}}> 
+       <Stack spacing={3}   sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start",sm:"flex-start"},justifyContent:"center"}} >
 
   <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem", maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem", maxWidth:"100%" }}
          inputProps={{
           style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1106,6 +1106,7 @@ else{
           id="hi"
           value={farmingType}
           label="Farming Type"
+          fullWidth
           displayEmpty
           renderValue={(selected) => {
             if (selected.length === 0) {
@@ -1205,7 +1206,7 @@ else{
         />
     </Grid>
 
-    <Grid item xs={12} sm={2}> 
+    <Grid item xs={12} sm={2} style={{display:"flex",justifyContent:"center",alignItems:"center"}}> 
       <Button onClick={()=>{getGeolocation()}}
        component="label" variant="contained" style={{ minHeight: '45px', minWidth: '110px',color:"#0A6054", backgroundColor: 'white', marginTop: '0px',border:"1px solid #0A6054" }}>
               <TbCurrentLocation style={{marginRight:"0.5rem",color:"#0A6054"}} /> Get Gps
@@ -1247,7 +1248,7 @@ else{
           label={'Previous Production'}
           value={previousProduction}
           onChange={(event) => {  setPreviousProduction(event.target.value);}} 
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{ color: 'black',maxWidth:"100%" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1259,7 +1260,7 @@ else{
 
         
    <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem",maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"}}}
+          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem",maxWidth:"100%"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1293,7 +1294,7 @@ else{
 
  
   <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%",marginLeft:{xs:"0%",sm:"0%"}, maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
+          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%",marginLeft:{xs:"0%",sm:"0%"}, maxWidth:"100%",height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1342,41 +1343,42 @@ else{
 
       </Grid> 
 
-      <Grid item sm={5} xs={12} sx={{display:"flex",justifyContent:"flex-start",alignItems:{xs:"flex-start",sm:"center"}}}> 
-       <Stack spacing={3} sx={{minWidth:{xs:"100%",sm:"105%"},paddingTop:"0rem", display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"0rem"}}}  >
-  
-       <TextField
-          key={"promptKey"}
-          label={'Crops/Livestock'}
-          value={currentCrops}
-          placeholder={"Press Enter to add a new produce"}
-        
+      <Grid item sm={5} xs={12} sx={{display:"flex",justifyContent:"flex-start",alignItems:{xs:"flex-start",sm:"flex-start"}, width:{xs:'100%'}}}> 
+       <Stack spacing={3} sx={{minWidth:{xs:"100%",sm:"100%"},paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"}}}  >
+          <Box sx={{width: {xs: '100%'}}}>
+
+            <TextField
+                key={"promptKey"}
+                label={'Crops/Livestock'}
+                value={currentCrops}
+                placeholder={"Press Enter to add a new produce"}
 
 
-         onChange={(e)=>{
-              
-          setCurrentCrops(e.target.value)
+              onChange={(e)=>{
+                    
+                setCurrentCrops(e.target.value)
 
-        }}
+              }}
 
 
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-              if (!cropsLivestock.includes(e.target.value)) {
-                  setCropsLivestock([...cropsLivestock, e.target.value]);
-                  setCurrentCrops('');
-              }
-          }
-      }}
-          sx={{ ...mobileFieldWidthSx, color: 'black' }}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
-          }}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                    if (!cropsLivestock.includes(e.target.value)) {
+                        setCropsLivestock([...cropsLivestock, e.target.value]);
+                        setCurrentCrops('');
+                    }
+                }
+            }}
+                sx={{  color: 'black' }}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+                }}
+                variant="outlined"
+                fullWidth
+                // margin="normal"
+              />
+          </Box>
 
 
     <Grid item xs={12} style={{width:"100%"}}>
@@ -1401,7 +1403,7 @@ else{
           label={'Farm Size'}
           value={farmSize}
           onChange={(e)=>{setFarmSize(e.target.value)}}
-          sx={{ ...mobileFieldWidthSx, color: 'black' }}
+          sx={{ color: 'black' }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1536,7 +1538,7 @@ else{
           label={'Previous Cost'}
           value={previousCost}
           onChange={(e)=>{setPreviousCost(e.target.value)}}
-            sx={{ color:'black' ,maxWidth:{xs:"28rem",sm:"70%",md:"80%",lg:"100%"}}}
+            sx={{ color:'black' ,maxWidth:"100%"}}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1557,7 +1559,7 @@ else{
      
 
 
-<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"100%",sm:"105%"}, display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"3rem"} }}>
+<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"100%",sm:"105%"}, display:"flex", alignItems:{xs:"flex-start" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"3rem"} }}>
 <Grid item xs={3}>
   <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
    <div >
@@ -1570,7 +1572,7 @@ else{
 
 
 
-<Grid item  sm ={10.2} xs={10.5} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+<Grid item  xs={11} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
    <TextField
           key={"Challenges"}
           label={'Challenges'}
@@ -1593,7 +1595,7 @@ else{
                 }
             }
         }}
-          sx={{ color:'black',maxWidth:{xs:"20rem",sm:"70%",md:"90%",lg:"100%"} }}
+          sx={{ color:'black',width:"100%" }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1621,9 +1623,9 @@ else{
   </Grid>
 
 
-  <Grid container spacing={1} xs={12} sx={{display:"flex",alignItems:"center",flexDirection:{xs:"column",sm:"row"},justifyContent:"flex-start",gap:"0.3rem",marginTop:"0.5rem",position:"relative",left:"0.5rem"}} > 
+  <Grid container spacing={1} xs={12} sx={{display:"flex",alignItems:"flex-start",flexDirection:{xs:"column",sm:"row"},justifyContent:"flex-start",gap:"0.3rem",marginTop:"0.5rem",position:"relative",left:"0.5rem"}} > 
       <Grid item xs={12} sm={5} > 
-      <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
+      <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start",sm:"flex-start"},justifyContent:"center"}} >
       
                <div style={{marginTop:"0.7rem"}}>
                    Education / Training
@@ -1755,7 +1757,7 @@ else{
       </Grid>
 
        <Grid item xs={12} sm={5}> 
-       <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
+       <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start",sm:"flex-start"},justifyContent:"center"}} >
         
 
        <Box sx={{ ...mobileFieldWidthSx, marginTop:"0.7rem" }}>
@@ -1773,7 +1775,7 @@ else{
                  position: "relative",
                  left: "-0rem",
                  top: "-0rem",
-                 scale: "0.9",
+                 scale: "0.97",
                  width:"100%"
                }}
              >
@@ -1802,7 +1804,7 @@ else{
                        label={'Describe secondary trade or job'}
                        value={offFarmIncomeDetails}
                        onChange={(e)=>{setOffFarmIncomeDetails(e.target.value)}}
-                        sx={{ ...mobileFieldWidthSx, color:'black', width:{ xs: '100%', sm: '28rem' }}}
+                        sx={{ ...mobileFieldWidthSx, color:'black', width:{ xs: '100%', sm: '100%' }}}
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
                          style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" },
@@ -1842,7 +1844,7 @@ else{
                  position: "relative",
                  left: "-0rem",
                  top: "-0rem",
-                 scale: "1",
+                 scale: "0.97",
                  width:"100%"
                }}
              >
@@ -1871,7 +1873,7 @@ else{
                        label={'Name of groups or cooperatives'}
                        value={farmerGroupMembershipDetails}
                        onChange={(e)=>{setFarmerGroupMembershipDetails(e.target.value)}}
-                        sx={{ width:{ xs: '100%', sm: '30rem' },color:'black' ,maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"}}}
+                        sx={{ width:{ xs: '100%', sm: '30rem' },color:'black' ,maxWidth:"100%"}}
                          
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
