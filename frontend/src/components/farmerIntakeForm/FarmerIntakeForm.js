@@ -585,102 +585,9 @@ else{
         />
 
 
-      
-         <TextField
-          label={'Number of Spouse'}
-          value={noOfSpouse}
-          
-          onChange={(e)=>{setNoOfSpouse(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
-          InputLabelProps={{ shrink: true , 
-         
-         }}
-          InputProps={{
-            style: { paddingLeft: '1rem', color: 'gray',backgroundColor:"#F9FAFB",height:"4rem",paddingRight:"1rem", },
-          }}
-          
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
-        
 
 
-             <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"3.2rem" }}>
-                   ID (Government Identification)*
-                  <div style={inputContainer2}>
-                  <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
-                   {/*<FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>*/}
-                   <RadioGroup  style={{color:"grey",flexDirection:"row"}}
-                     aria-labelledby="demo-radio-buttons-group-label"
-                     defaultValue="female"
-                     name="radio-buttons-group"
-                   >
-                      <FormControlLabel value={true}  control={<Radio  onChange={(e)=>{setHasID(true)}}  style={{color:"grey"}} />}  label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative"}}>Yes </Typography>} />
-                     <FormControlLabel  value={false} control={<Radio  onChange={(e)=>{setHasID(false)}} style={{color:"grey"}} />} label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative",}}>No</Typography>}  />
-                    
-                     
-                   </RadioGroup>
-                 </FormControl>
-
-                 {/** PASTE HERE!! */}
-                  </div>
-
-                </Box>
-
-
-                <Box sx={{ width: { xs: '100%', sm: '70%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"1rem" }}>
-                   Do you have a smartphone ?*
-                  <div style={inputContainer2}>
-                  <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
-                   {/*<FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>*/}
-                   <RadioGroup  style={{color:"grey",flexDirection:"row"}}
-                     aria-labelledby="demo-radio-buttons-group-label"
-                     defaultValue={true}
-                     name="radio-buttons-group"
-                   >
-                      <FormControlLabel value={true} control={<Radio onChange={(e)=>{setHasSmartphone(true)}}  style={{color:"grey"}} />}  label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative"}}>Yes </Typography>} />
-                     <FormControlLabel  value={false}  control={<Radio onChange={(e)=>{setHasSmartphone(false)}}  style={{color:"grey"}} />} label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative",}}>No</Typography>}  />
-                    
-                     
-                   </RadioGroup>
-                 </FormControl>
-
-                 {/** PASTE HERE!! */}
-                  </div>
-
-                </Box>
-
-
-
-
-
-        
-  
-      </Stack>
-      </Grid> 
-      
-    
-       <Grid item sm={fields && fields.length < 2 ?12:5 }  xs={12}   > 
-       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"stretch",sm:"flex-start"},justifyContent:"center", width:{xs:'100%', sm:'auto'}}} >
-      
-        {!isMobile && (
-        <TextField
-          label={'Last Name'}
-          value={lastName}
-          onChange={(e)=>{setLastName(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
-          }}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
-        )}
-
-{<Select  
+{ isMobile && <Select  
           sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -711,10 +618,296 @@ else{
 
        
         </Select>}
+
+
+        {isMobile &&
+          <Select
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+         inputProps={{
+          style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+        
+      }}
+        
+          labelId="hi-label"
+          id="hi"
+          value={maritalStatus}
+          label="Marital Status"
+          displayEmpty
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em style={{color:"lightgray"}}>Marital Status</em>;
+            }
+
+            return selected;
+          }}
+          onChange={(event) => {
+            setMaritalStatus(event.target.value);
+          }}
+        >
+       
+  <MenuItem disabled value={""}>select</MenuItem>   
+  <MenuItem  value={"Single"}>Single</MenuItem>
+  <MenuItem   value={"Married"}>Married</MenuItem>
+  <MenuItem   value={"Divorced"}>Divorced</MenuItem>
+
+       
+        </Select>}
+        
+
+         
+      {isMobile &&   <TextField
+          label={'Number of Spouse'}
+          value={noOfSpouse}
+          
+          onChange={(e)=>{setNoOfSpouse(e.target.value)}}
+          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          InputLabelProps={{ shrink: true , 
+         
+         }}
+          InputProps={{
+            style: { paddingLeft: '1rem', color: 'gray',backgroundColor:"#F9FAFB",height:"4rem",paddingRight:"1rem", },
+          }}
+          
+          variant="outlined"
+          fullWidth
+          margin="normal"
+        />}
+
+
+    {isMobile && <Select
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+         inputProps={{
+          style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+         
+      }}
+        
+          labelId="hi-label"
+          id="hi"
+          value={noOfChildren}
+          label="No of Children"
+          displayEmpty
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em style={{color:"lightgray"}}>No of Children</em>;
+            }
+
+            return selected;
+          }}
+          onChange={(event) => {
+            setNoOfChildren(event.target.value);
+          }}
+        >
+       
+  <MenuItem disabled value={"0"}>0</MenuItem>   
+  <MenuItem  value={"1"}>1</MenuItem>
+  <MenuItem   value={"2"}>2</MenuItem>
+  <MenuItem   value={"3"}>3</MenuItem>
+  <MenuItem   value={"4"}>4</MenuItem>
+  <MenuItem   value={"5"}>5</MenuItem>
+  <MenuItem   value={"6"}>6</MenuItem>
+
+       
+        </Select>}
+ 
+
+
+      
+      {!isMobile &&   <TextField
+          label={'Number of Spouse'}
+          value={noOfSpouse}
+          
+          onChange={(e)=>{setNoOfSpouse(e.target.value)}}
+          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          InputLabelProps={{ shrink: true , 
+         
+         }}
+          InputProps={{
+            style: { paddingLeft: '1rem', color: 'gray',backgroundColor:"#F9FAFB",height:"4rem",paddingRight:"1rem", },
+          }}
+          
+          variant="outlined"
+          fullWidth
+          margin="normal"
+        />}
+        
+
+
+             <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"3.2rem" }}>
+                   ID (Government Identification)*
+                  <div style={inputContainer2}>
+                  <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
+                   {/*<FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>*/}
+                   <RadioGroup  style={{color:"grey",flexDirection:"row"}}
+                     aria-labelledby="demo-radio-buttons-group-label"
+                     defaultValue="female"
+                     name="radio-buttons-group"
+                   >
+                      <FormControlLabel value={true}  control={<Radio  onChange={(e)=>{setHasID(true)}}  style={{color:"grey"}} />}  label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative"}}>Yes </Typography>} />
+                     <FormControlLabel  value={false} control={<Radio  onChange={(e)=>{setHasID(false)}} style={{color:"grey"}} />} label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative",}}>No</Typography>}  />
+                    
+                     
+                   </RadioGroup>
+                 </FormControl>
+
+                 {/** PASTE HERE!! */}
+                  </div>
+
+                </Box>
+
+
+                {isMobile && <Select
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
+         inputProps={{
+          style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+         
+      }}
+        
+          labelId="hi-label"
+          id="hi"
+          value={idTpye}
+          label="ID type"
+          displayEmpty
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em style={{color:"lightgray"}}>ID type</em>;
+            }
+
+            return selected;
+          }}
+          onChange={(event) => {
+            setIdTpye(event.target.value);
+          }}
+        >
+       
+  <MenuItem disabled value={""}></MenuItem>   
+  <MenuItem  value={"Passport"}>Passport</MenuItem>
+  <MenuItem   value={"National Identification"}>National Identification</MenuItem>
+  <MenuItem   value={"Drivers License"}>Drivers License</MenuItem>
+
+       
+        </Select>}
+
+
+     
+
+
+
+                <Box sx={{ width: { xs: '100%', sm: '70%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"1rem" }}>
+                   Do you have a smartphone ?*
+                  <div style={inputContainer2}>
+                  <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
+                   {/*<FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>*/}
+                   <RadioGroup  style={{color:"grey",flexDirection:"row"}}
+                     aria-labelledby="demo-radio-buttons-group-label"
+                     defaultValue={true}
+                     name="radio-buttons-group"
+                   >
+                      <FormControlLabel value={true} control={<Radio onChange={(e)=>{setHasSmartphone(true)}}  style={{color:"grey"}} />}  label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative"}}>Yes </Typography>} />
+                     <FormControlLabel  value={false}  control={<Radio onChange={(e)=>{setHasSmartphone(false)}}  style={{color:"grey"}} />} label={<Typography style={{fontFamily:"Public Sans, sans-serif",position:"relative",}}>No</Typography>}  />
+                    
+                     
+                   </RadioGroup>
+                 </FormControl>
+
+                 {/** PASTE HERE!! */}
+                  </div>
+
+                </Box>
+
+
+
+                {isMobile &&
+
+<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}  }}>
+<PhoneInput
+  country={'us'} // Default country (you can change to any valid country code)
+  value={phone}
+  onChange={setPhone} // Update the phone number on change
+  enableSearch={true} // Allow users to search for countries
+  placeholder="Enter phone number"
+  inputStyle={{
+    backgroundColor: "#F9FAFB",height:"4rem", // Match your input background color
+    width: '100%',
+    height: '4rem',
+    borderRadius: '0.1rem',
+    paddingLeft: '3rem',
+    color: 'black',
+  }}
+  buttonStyle={{
+    backgroundColor: "#FFFFFF", // Match the select button background
+    borderRadius: '0.1rem',
+    height:"4rem",
+  }}
+  containerStyle={{
+    width: '100%',
+   
+  }}
+/>
+</Paper>
+        }
+
+        
+  
+      </Stack>
+      </Grid> 
+      
+    
+       <Grid item sm={fields && fields.length < 2 ?12:5 }  xs={12}   > 
+       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"stretch",sm:"flex-start"},justifyContent:"center", width:{xs:'100%', sm:'auto'}}} >
+      
+        {!isMobile && (
+        <TextField
+          label={'Last Name'}
+          value={lastName}
+          onChange={(e)=>{setLastName(e.target.value)}}
+          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+          }}
+          variant="outlined"
+          fullWidth
+          margin="normal"
+        />
+        )}
+
+{ !isMobile && <Select  
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+         inputProps={{
+          style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+         
+      }}
+        
+          labelId="hi-label"
+          id="hi"
+          value={gender}
+          label="Gender"
+          displayEmpty
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em style={{color:"lightgray"}}>Gender</em>;
+            }
+
+            return selected;
+          }}
+          onChange={(event) => {
+            setGender(event.target.value);
+          }}
+        >
+       
+  <MenuItem disabled value={""}>Gender</MenuItem>   
+  <MenuItem  value={"Male"}>Male</MenuItem>
+  <MenuItem   value={"Female"}>Female</MenuItem>
+  
+
+       
+        </Select>}
+
+        
  
 
  
-{<Select
+{!isMobile && <Select
           sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -747,9 +940,11 @@ else{
         </Select>}
  
 
+ 
+
 
         
- {<Select
+ {!isMobile && <Select
           sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -785,7 +980,7 @@ else{
         </Select>}
 
  
-{<Select
+{!isMobile && <Select
           sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -809,7 +1004,7 @@ else{
           }}
         >
        
-  <MenuItem disabled value={""}>Classe et Option</MenuItem>   
+  <MenuItem disabled value={""}></MenuItem>   
   <MenuItem  value={"Passport"}>Passport</MenuItem>
   <MenuItem   value={"National Identification"}>National Identification</MenuItem>
   <MenuItem   value={"Drivers License"}>Drivers License</MenuItem>
@@ -818,7 +1013,7 @@ else{
         </Select>}
 
 
-        {
+        {!isMobile &&
 
 <Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}  }}>
 <PhoneInput
