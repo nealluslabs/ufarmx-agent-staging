@@ -8,6 +8,7 @@ import Iconify from '../iconify';
 import { useDispatch, useSelector } from 'react-redux';
 import { signin } from 'src/redux/actions/auth.action';
 import { fetchAllFarmers, fetchAllResponses } from 'src/redux/actions/group.action';
+import InstallAppPrompt from 'src/components/offline/InstallAppPrompt';
 
 // ----------------------------------------------------------------------
 
@@ -97,6 +98,9 @@ export default function LoginForm() {
            border: '1px solid black',borderRadius:"0.5rem", color: 'white',fontWeight:"400"}}>
         {loading ? "Loading..." : "Sign In"}
       </LoadingButton>
+      {/* <Grid item xs={12} md={12} sx={{ mt: 2 }}>
+        <InstallAppPrompt />
+      </Grid> */}
       </form>
     </>
   );

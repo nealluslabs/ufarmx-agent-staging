@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress } from '@mui/material';
+import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress, Chip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import { useTheme, styled } from '@mui/material/styles';
 
 import RetailerStatsLong from 'src/components/home/retailer-stats-long';
 import SmallCustomSearchBar from 'src/components/global/SmalllCustomSearchBar';
+import { getOutboxCount } from 'src/offline/outboxDb';
+import { syncOutboxNow } from 'src/offline/outboxSync';
 
 import { FaPlus } from 'react-icons/fa6';
 
@@ -64,6 +66,16 @@ export default function AllRetailersForOneAgentPage() {
   const [selectedFilter, setSelectedFilter] = useState(''); /**not using regular expressions here */
   const [selectedLocation, setSelectedLocation] = useState(/.*/ );
   const [loadingPage,setLoadingPage] = useState(false)
+  const [pendingOutboxCount, setPendingOutboxCount] = useState(0);
+
+  const refreshPendingOutboxCount = async () => {
+    try {
+      const count = await getOutboxCount();
+      setPendingOutboxCount(count);
+    } catch (error) {
+      setPendingOutboxCount(0);
+    }
+  };
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -71,6 +83,27 @@ export default function AllRetailersForOneAgentPage() {
     }
     ,1500)
     },[])
+
+  useEffect(() => {
+    refreshPendingOutboxCount();
+
+    const handleOnline = async () => {
+      await syncOutboxNow();
+      await refreshPendingOutboxCount();
+    };
+
+    window.addEventListener('online', handleOnline);
+    const timer = window.setInterval(refreshPendingOutboxCount, 15000);
+
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.clearInterval(timer);
+    };
+  }, []);
     
 
  /* const forcedId =  []
@@ -186,12 +219,32 @@ useEffect(()=>{
       <CircularProgress/>
      </center>
   :
-      <Container maxWidth="xl" style={{scale:"0.9",position:"relative",top:"-2rem",left:"-2rem"}} >
+      <Box sx={{ width: "100%", overflowX: "hidden" }}>
+      <Container
+        maxWidth="xl"
+        sx={{
+          width: '100%',
+          px: { xs: 2, sm: 3 },
+          scale: { xs: 1, sm: 1, md: 0.9 },
+          position: 'relative',
+          top: { xs: 0, sm: 0, md: '-2rem' },
+          left: { xs: 0, sm: 0, md: '-2rem' },
+        }}
+      >
       
    
       <Grid container spacing={2} alignItems="center" justifyContent="flex-start" style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",marginTop:"0.3rem",paddingRight:"0rem"}}> 
        
-       <Grid item xs={12} style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"1.5rem"}}>
+       <Grid
+         item
+         xs={12}
+         sx={{
+           flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+           alignItems: { xs: 'flex-start', sm: 'flex-start', md: 'center' },
+           gap: { xs: 1.5, sm: 1.5, md: 0 },
+         }}
+         style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"1.5rem"}}
+       >
      
      <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start"}}>
      
@@ -204,6 +257,7 @@ useEffect(()=>{
         <Button
         //onClick={()=>{navigate('/dashboard/add-farmer')}}
               variant={'contained'}
+              sx={{ width: { xs: '100%', sm: '100%', md: 'auto' } }}
               style={{
                 minHeight: '50px',
                 maxWidth: '150px',
@@ -277,9 +331,20 @@ useEffect(()=>{
              
                
      
-               <Grid container spacing={2} alignItems="center" justifyContent="flex-end" style={{display:"flex",alignItems:"flex-end",justifyContent:"flex-end",paddingRight:"0rem"}}> 
+               <Grid
+                 container
+                 spacing={2}
+                 alignItems="center"
+                 justifyContent="flex-end"
+                 sx={{
+                   flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                   alignItems: { xs: 'stretch', sm: 'stretch', md: 'flex-end' },
+                   justifyContent: { xs: 'flex-start', sm: 'flex-start', md: 'flex-end' },
+                 }}
+                 style={{display:"flex",alignItems:"flex-end",justifyContent:"flex-end",paddingRight:"0rem"}}
+               > 
                
-               <Grid item  style={{width:"max-content",display: 'flex',justifyContent:"flex-start", alignItems: 'flex-start', marginTop: "1.5rem", marginBottom: "2rem",borderRadius:"2rem",padding:"0.5rem" }}>
+               <Grid item xs={12} sm={12} style={{width:"max-content",display: 'flex',justifyContent:"flex-start", alignItems: 'flex-start', marginTop: "1.5rem", marginBottom: "2rem",borderRadius:"2rem",padding:"0.5rem" }}>
               
                    <Box sx={{ width: '100%', marginTop: '0%'}}>
                      <SmallCustomSearchBar   title={"Search Farmers"} functionality={"farmers"} />
@@ -287,13 +352,14 @@ useEffect(()=>{
                 </Grid>
      
                
-                  <Grid item  style={{width:"max-content",display: 'flex',justifyContent:"flex-start", alignItems: 'flex-start', marginTop: "1.5rem", marginBottom: "2rem",backgroundColor:"#F9F9F9",borderRadius:"2rem",padding:"0.5rem" }}>
+                  <Grid item xs={12} sm={12} style={{width:"max-content",display: 'flex',justifyContent:"flex-start", alignItems: 'flex-start', marginTop: "1.5rem", marginBottom: "2rem",backgroundColor:"#F9F9F9",borderRadius:"2rem",padding:"0.5rem" }}>
                   
      
                     <Box sx={{ width: '100%'}}>
                  
                       <Button
                         variant={'contained'}
+                        sx={{ width: { xs: '100%', sm: '100%', md: 'auto' } }}
                         style={{
                           minHeight: '50px',
                           minWidth: '140px',
@@ -326,7 +392,7 @@ useEffect(()=>{
 
 
           <Grid item xs={12} md={12} lg={12} >
-           <div style={{background: 'white', padding: '10px',paddingLeft:"0",paddingRight:"0",marginTop:"-2.5rem",width:"100%"}}>
+           <div style={{background: 'white', padding: '10px',paddingLeft:"0",paddingRight:"0",marginTop:"-2.5rem",width:"100%",overflowX:"auto"}}>
 
            
               
@@ -338,8 +404,8 @@ useEffect(()=>{
 
                {
                
-                 <Grid xs={2} item sx={{mb: 0}}>
-             <FormControl sx={{width:{xs:60,sm:140}, minWidth: 60, background: 'white' }}>
+                 <Grid xs={12} sm={4} md={2} item sx={{mb: 0}}>
+             <FormControl sx={{width:{xs:'100%',sm:140}, minWidth: { xs: 0, sm: 60 }, background: 'white' }}>
                   <Select
                     value={selectedLocation}
                     onChange={(e) => {setSelectedLocation(e.target.value); dispatch(filterFarmersByLocation(e.target.value,allFarmersForThisAgent,filteredFarmers,page,currentLocationFilter,currentCropFilter,currentCropTypeFilter ))  }}
@@ -347,7 +413,7 @@ useEffect(()=>{
                     label=""
                     sx={{
                       height: 45,
-                      width:{xs:60,sm:140},
+                      width:{xs:'100%',sm:140},
                       p: 1,
                     }}
                   >
@@ -367,8 +433,8 @@ useEffect(()=>{
                
 
       {  
-                <Grid xs={2} item sx={{mb: 0}}>
-             <FormControl sx={{ width:{xs:60,sm:140},minWidth: 60, background: 'white' }}>
+                <Grid xs={12} sm={4} md={2} item sx={{mb: 0}}>
+             <FormControl sx={{ width:{xs:'100%',sm:140},minWidth: { xs: 0, sm: 60 }, background: 'white' }}>
                   <Select
                     value={selectedClass}
                     onChange={(e) => {setSelectedClass(e.target.value);dispatch(filterFarmersByCropType(e.target.value,allFarmersForThisAgent,filteredFarmers,page,currentLocationFilter,currentCropFilter,currentCropTypeFilter)) }  }
@@ -376,7 +442,7 @@ useEffect(()=>{
                     label=""
                     sx={{
                       height: 45,
-                      width:{xs:60,sm:140},
+                      width:{xs:'100%',sm:140},
                       p: 1,
                     }}
                   >
@@ -398,8 +464,8 @@ useEffect(()=>{
            
 
         {   
-            <Grid xs={2} item sx={{mb: 0}}>
-            <FormControl sx={{  width:{xs:60,sm:140},minWidth: 60, background: 'white' }}>
+            <Grid xs={12} sm={4} md={2} item sx={{mb: 0}}>
+            <FormControl sx={{  width:{xs:'100%',sm:140},minWidth: { xs: 0, sm: 60 }, background: 'white' }}>
                  <Select
                    value={selectedSection}
                    onChange={(e) => {setSelectedSection(e.target.value) ; dispatch(filterFarmersByCrop(e.target.value,allFarmersForThisAgent,filteredFarmers,page,currentLocationFilter,currentCropFilter,currentCropTypeFilter))  } }
@@ -407,7 +473,7 @@ useEffect(()=>{
                    label=""
                    sx={{
                      height: 45,
-                     width:{xs:60,sm:140},
+                     width:{xs:'100%',sm:140},
                      p: 1,
                    }}
                  >
@@ -509,6 +575,7 @@ useEffect(()=>{
 
 
       </Container>
+      </Box>
 
 
 

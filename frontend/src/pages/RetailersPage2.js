@@ -27,6 +27,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRetailer, fetchAllRetailerProducts, fetchRetailerById, fetchRetailerProductsForOneRetailer } from 'src/redux/actions/group.action';
+import { getOutboxCount } from 'src/offline/outboxDb';
+import { syncOutboxNow } from 'src/offline/outboxSync';
 
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
@@ -49,11 +51,42 @@ export default function RetailersPage2() {
   const [selectedAgent, setSelectedAgent] = useState(/.*/);
   const [loadingPage, setLoadingPage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pendingOutboxCount, setPendingOutboxCount] = useState(0);
+
+  const refreshPendingOutboxCount = async () => {
+    try {
+      const count = await getOutboxCount();
+      setPendingOutboxCount(count);
+    } catch (error) {
+      setPendingOutboxCount(0);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
       setLoadingPage(true);
     }, 1500);
+  }, []);
+
+  useEffect(() => {
+    refreshPendingOutboxCount();
+
+    const handleOnline = async () => {
+      await syncOutboxNow();
+      await refreshPendingOutboxCount();
+    };
+
+    window.addEventListener('online', handleOnline);
+    const timer = window.setInterval(refreshPendingOutboxCount, 15000);
+
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.clearInterval(timer);
+    };
   }, []);
 
   console.log('SELECTED AGENT IS NOW==>', selectedAgent);
@@ -89,7 +122,7 @@ export default function RetailersPage2() {
     console.log('WHAT WE ARE PRESENTING FOR RETAILERS-->', sortedRetailers);
     console.log('ALL Retailers-->', sortedRetailers);
   }, [allRetailers]);
-
+console.log('all retailers ============>>>>>>>>>>>-->', allRetailers); 
   const chartData = [
     { name: 'Aug 2025', 'Active Retailers': 3, 'Loans Generated': 0 },
     { name: 'Sept 2025', 'Active Retailers': 4, 'Loans Generated': 0 },
@@ -189,7 +222,7 @@ export default function RetailersPage2() {
       ) : (
         <Container maxWidth="xl">
           {/* Header */}
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt:{xs:6} }}>
             <Box>
               <Typography variant="h4" sx={{ fontWeight: 700, color: '#101828' }}>
                 Retailers
@@ -197,6 +230,13 @@ export default function RetailersPage2() {
               <Typography variant="body1" color="textSecondary">
                 View and manage all retailers
               </Typography>
+              <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+                <Chip
+                  size="small"
+                  label={`Pending sync: ${pendingOutboxCount}`}
+                  sx={{ backgroundColor: '#EEF2FF', color: '#1E3A8A', fontWeight: 500 }}
+                />
+              </Box>
             </Box>
             <Button
               onClick={() => {

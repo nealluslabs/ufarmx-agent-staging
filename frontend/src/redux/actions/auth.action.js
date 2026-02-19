@@ -8,6 +8,53 @@ import baseUrl from './baseUrl';
 import { fetchAllFarmers,fetchAllFarmersForOneRetailer, fetchAllResponses,fetchAgentByPhone,fetchAgentByUserId,fetchFarmerByPhone, fetchAllForms, fetchAllAdmins, fetchFarmersForOneAgent, fetchAllResponsesForOneAgent, fetchAllFarmerProduce,fetchAllRequests, fetchAllRetailerProducts, fetchAllRetailers } from './group.action';
 import axios from 'axios';
 
+const getPersistedState = () => {
+  try {
+    const persistedRootRaw = localStorage.getItem('persist:root');
+    if (!persistedRootRaw) return null;
+    const persistedRoot = JSON.parse(persistedRootRaw);
+    const authState = persistedRoot?.auth ? JSON.parse(persistedRoot.auth) : null;
+    const groupState = persistedRoot?.group ? JSON.parse(persistedRoot.group) : null;
+    return { authState, groupState };
+  } catch (error) {
+    return null;
+  }
+};
+
+const normalizeIdentifier = (value) => (value || '').toString().trim().toLowerCase();
+
+const isSameCachedUser = (inputIdentifier, cachedUser) => {
+  const normalizedInput = normalizeIdentifier(inputIdentifier);
+  const candidates = [
+    cachedUser?.email,
+    cachedUser?.phone,
+    cachedUser?.phoneNumber,
+    cachedUser?.phone_number,
+    cachedUser?.username,
+  ].map(normalizeIdentifier);
+
+  return normalizedInput && candidates.includes(normalizedInput);
+};
+
+const navigateFromCachedRole = (groupState, navigate) => {
+  if (groupState?.isAgent) {
+    const agentType = (groupState?.agentType || '').toLowerCase();
+    if (agentType === 'retailer') {
+      navigate('/dashboard/all-retailers-one-agent', { replace: true });
+      return;
+    }
+    navigate('/dashboard/all-farmers-one-agent', { replace: true });
+    return;
+  }
+
+  if (groupState?.isFarmer) {
+    navigate('/dashboard/home-farmer', { replace: true });
+    return;
+  }
+
+  navigate('/dashboard/home', { replace: true });
+};
+
 
 
 export const signin = (user, navigate, setLoading) => async (dispatch) => {
@@ -119,6 +166,31 @@ else{
     ;
    })
    .catch((error) => {
+    const isNetworkIssue = error?.code === 'ERR_NETWORK' || !error?.response;
+    if (isNetworkIssue) {
+      const persistedState = getPersistedState();
+      const cachedUser = persistedState?.authState?.user;
+      const cachedGroup = persistedState?.groupState;
+
+      if (cachedUser && isSameCachedUser(user?.email, cachedUser)) {
+        dispatch(storeUserData(cachedUser));
+        dispatch(loginSuccess(cachedUser));
+        dispatch(saveIsAgent(!!cachedGroup?.isAgent));
+        dispatch(saveAgentType(cachedGroup?.agentType || "Farmer"));
+        dispatch(saveIsSuperAdmin(!!cachedGroup?.isSuperAdmin));
+        dispatch(saveIsAdmin(!!cachedGroup?.isAdmin));
+        dispatch(saveIsFarmer(!!cachedGroup?.isFarmer));
+        setLoading(false);
+        notifySuccessFxn("Logged in using offline mode");
+        navigateFromCachedRole(cachedGroup, navigate);
+        return;
+      }
+
+      setLoading(false);
+      notifyErrorFxn("Offline login is only available for users who have previously logged in on this device");
+      return;
+    }
+
     setLoading(false);
     notifyErrorFxn("Invalid email/password, please try again")
     var errorCode = error.code;

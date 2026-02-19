@@ -448,7 +448,7 @@ else if(!photo){
   return
 }
 else{
-   dispatch(submitNewResponseIntake(updatedFields,setStep1,setStep2,setStep3,stateSetters
+   dispatch(submitNewResponseIntake(updatedFields,photo,setStep1,setStep2,setStep3,stateSetters
    ))
 }
   setTimeout( ()=>{setLoading(false) },2500)

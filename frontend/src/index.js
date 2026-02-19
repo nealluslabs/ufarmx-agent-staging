@@ -7,6 +7,17 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import store from './redux/store';
 import App from './App';
+import { registerUfarmxServiceWorker } from './offline/serviceWorkerRegistration';
+import { initOutboxSync } from './offline/outboxSync';
+
+if (typeof window !== 'undefined') {
+  window.__ufarmxInstallPromptEvent = window.__ufarmxInstallPromptEvent || null;
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    window.__ufarmxInstallPromptEvent = event;
+    window.dispatchEvent(new Event('ufarmx-install-available'));
+  });
+}
 
 
 
@@ -37,10 +48,12 @@ root.render(
   </HelmetProvider>
 );
 
+registerUfarmxServiceWorker();
+initOutboxSync();
+
 // If you want to enable client cache, register instead.
 
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-

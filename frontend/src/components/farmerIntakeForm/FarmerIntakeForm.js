@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Grid, Button, Avatar, FormControl, MenuItem, Select, Typography, Divider, CardMedia, FormControlLabel, RadioGroup, Radio, Chip, Paper, Box, FormGroup, InputLabel } from '@mui/material';
+import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Grid, Button, Avatar, FormControl, MenuItem, Select, Typography, Divider, CardMedia, FormControlLabel, RadioGroup, Radio, Chip, Paper, Box, FormGroup, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 // components
 // /import Iconify from '../iconify';
@@ -82,6 +83,8 @@ export default function FarmerIntakeForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   const { user } = useSelector((state) => state.auth);
@@ -110,6 +113,12 @@ export default function FarmerIntakeForm() {
     justifyContent:'flex-start',
     alignItems: 'flex-start',
     marginTop:"-0.2rem"
+  };
+  
+  const mobileFieldWidthSx = {
+    width: '100%',
+    maxWidth: { xs: '20rem', sm: '70%', md: '80%', lg: '100%' },
+    alignSelf: { xs: 'center', sm: 'flex-start' },
   };
 
 
@@ -458,7 +467,13 @@ else{
 
 <>
  
-     <Grid container xs={12} spacing={2} style={{width:"1000px",display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}>  
+     <Grid
+       container
+       xs={12}
+       spacing={2}
+       sx={{ width: { xs: '100%', md: '1000px' }, px: { xs: 2, sm: 2, md: 0 }, boxSizing: 'border-box', mt: {xs:2} }}
+       style={{display:"flex", alignItems:"center",justifyContent:"center",gap:"4rem"}}
+     >  
     
     
     
@@ -513,7 +528,6 @@ else{
 
 
           <TextField
-          key={"firstName"}
           label={'First Name'}
           value={firstName}
           onChange={(e)=>{setFirstName(e.target.value)}}
@@ -527,8 +541,23 @@ else{
           margin="normal"
         />
 
+       {isMobile && (
+        <TextField
+          label={'Last Name'}
+          value={lastName}
+          onChange={(e)=>{setLastName(e.target.value)}}
+          sx={{ color: 'black',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+          }}
+          variant="outlined"
+          fullWidth
+          margin="normal"
+        />
+       )}
+
        <TextField
-          key={"promptKey"}
           label={'Other Names'}
           value={otherNames}
           onChange={(e)=>{setOtherNames(e.target.value)}}
@@ -542,28 +571,22 @@ else{
           margin="normal"
         />
 
- 
-<InputLabel id="age-label">Age</InputLabel>
-  <Select
-    labelId="age-label"
-    id="age-select"
-    value={age}
-    onChange={(e) => setAge(e.target.value)}
-    label="Age"
-    sx={{ color: 'black',width:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem", backgroundColor: "#F9FAFB", paddingLeft: '1rem', color: 'gray', paddingRight: '1rem'  }}
-   
-  >
-    {ageOptions.map((ageValue) => (
-      <MenuItem key={ageValue} value={ageValue}>
-        {ageValue} 
-      </MenuItem>
-    ))}
-  </Select>
+       <TextField
+          label={'Date of Birth'}
+          type="date"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          sx={{ color: 'black',width:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem" }}
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+          }}
+          variant="outlined"
+        />
 
 
       
          <TextField
-          key={"promptKey"}
           label={'Number of Spouse'}
           value={noOfSpouse}
           
@@ -583,7 +606,7 @@ else{
         
 
 
-             <div style={{marginTop:"3.2rem"}}>
+             <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"3.2rem" }}>
                    ID (Government Identification)*
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -603,10 +626,10 @@ else{
                  {/** PASTE HERE!! */}
                   </div>
 
-                </div>
+                </Box>
 
 
-                <div style={{marginTop:"1rem"}}>
+                <Box sx={{ width: { xs: '100%', sm: '70%', md: '80%', lg: '100%' }, maxWidth: '20rem', alignSelf: { xs: 'center', sm: 'flex-start' }, marginTop:"1rem" }}>
                    Do you have a smartphone ?*
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -626,7 +649,7 @@ else{
                  {/** PASTE HERE!! */}
                   </div>
 
-                </div>
+                </Box>
 
 
 
@@ -639,10 +662,10 @@ else{
       
     
        <Grid item sm={fields && fields.length < 2 ?12:5 }  xs={12}   > 
-       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
+       <Stack spacing={3}  sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"stretch",sm:"flex-start"},justifyContent:"center", width:{xs:'100%', sm:'auto'}}} >
       
+        {!isMobile && (
         <TextField
-          key={"promptKey"}
           label={'Last Name'}
           value={lastName}
           onChange={(e)=>{setLastName(e.target.value)}}
@@ -655,9 +678,10 @@ else{
           fullWidth
           margin="normal"
         />
+        )}
 
 {<Select  
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem',maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} , color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -691,7 +715,7 @@ else{
 
  
 {<Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem",maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
         
@@ -726,7 +750,7 @@ else{
 
         
  {<Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem",maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -762,7 +786,7 @@ else{
 
  
 {<Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem",maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{...mobileFieldWidthSx, width:{xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}, backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" }}
          inputProps={{
           style: {paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -796,7 +820,7 @@ else{
 
         {
 
-<Paper sx={{ width: '100%', maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"}  }}>
+<Paper sx={{ width: {xs:'100%', sm:'100%'}, alignSelf:{xs:'stretch', sm:'flex-start'}, maxWidth:{xs:"none",sm:"70%",md:"80%",lg:"100%"}  }}>
 <PhoneInput
   country={'us'} // Default country (you can change to any valid country code)
   value={phone}
@@ -858,7 +882,12 @@ else{
  
 <>
      
-<Grid item xs={12}style={{maxWidth:"1000px",width:"90%",display:"flex",flexDirection:"column",alignItems:"flex-start", justifyContent:"center",marginBottom:"2.5rem",marginLeft:"2.5rem"}}>
+<Grid
+  item
+  xs={12}
+  sx={{ marginLeft: { xs: 0, sm: '2.5rem' }, width: { xs: '100%', sm: '90%' } }}
+  style={{maxWidth:"1000px",display:"flex",flexDirection:"column",alignItems:"flex-start", justifyContent:"center",marginBottom:"2.5rem"}}
+>
           <Typography color="textPrimary" variant="p" component="p" style={{ color: '#000000',position:"relative" }}>
             Farm Information
           </Typography>
@@ -867,8 +896,8 @@ else{
           <Divider sx={{width:"100%", backgroundColor:"#90C434"}}/>
   </Grid>
 
-  <Grid container spacing={2} xs={12} sx={{display:"flex",alignItems:"center",flexDirection:{xs:"column",sm:"row"},justifyContent:"center",gap:"2rem", alignItems: { xs: "center", sm: "flex-start" },}} > 
-    <Grid item xs={5} > 
+  <Grid container spacing={2} xs={12} sx={{display:"flex",alignItems:"center",flexDirection:{xs:"column",sm:"row"},justifyContent:"center",gap:"2rem", alignItems: { xs: "center", sm: "flex-start" }, width: { xs: '100%', sm: 'auto' }}} > 
+    <Grid item xs={12} sm={5} > 
        <Stack spacing={3}   sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
 
   <Select
@@ -930,9 +959,9 @@ else{
  
 
  
- <Grid container xs={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"center",gap:"2rem"}} >
+ <Grid container xs={12} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"center",gap:"2rem"}} >
 
-  <Grid item xs={6}>
+  <Grid item xs={12} sm={6}>
   {/*<Select
           style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height: '3rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
          inputProps={{
@@ -981,7 +1010,7 @@ else{
         />
     </Grid>
 
-    <Grid item xs={2}> 
+    <Grid item xs={12} sm={2}> 
       <Button onClick={()=>{getGeolocation()}}
        component="label" variant="contained" style={{ minHeight: '45px', minWidth: '110px',color:"#0A6054", backgroundColor: 'white', marginTop: '0px',border:"1px solid #0A6054" }}>
               <TbCurrentLocation style={{marginRight:"0.5rem",color:"#0A6054"}} /> Get Gps
@@ -1069,7 +1098,7 @@ else{
 
  
   <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%",marginLeft:{xs:"50%",sm:"0%"}, maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
+          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%",marginLeft:{xs:"0%",sm:"0%"}, maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"},height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1119,7 +1148,7 @@ else{
       </Grid> 
 
       <Grid item sm={5} xs={12} sx={{display:"flex",justifyContent:"flex-start",alignItems:{xs:"flex-start",sm:"center"}}}> 
-       <Stack spacing={3} sx={{minWidth:{xs:"144%",sm:"105%"},paddingTop:"0rem", display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"-3rem",sm:"0rem"}}}  >
+       <Stack spacing={3} sx={{minWidth:{xs:"100%",sm:"105%"},paddingTop:"0rem", display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"0rem"}}}  >
   
        <TextField
           key={"promptKey"}
@@ -1144,7 +1173,7 @@ else{
               }
           }
       }}
-          sx={{ color: 'black',maxWidth:{xs:"30rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{ ...mobileFieldWidthSx, color: 'black' }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1177,7 +1206,7 @@ else{
           label={'Farm Size'}
           value={farmSize}
           onChange={(e)=>{setFarmSize(e.target.value)}}
-          sx={{ color: 'black',maxWidth:{xs:"25rem",sm:"70%",md:"80%",lg:"100%"} }}
+          sx={{ ...mobileFieldWidthSx, color: 'black' }}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
@@ -1189,7 +1218,7 @@ else{
 
 
 
-        <div style={{marginTop:"3.2rem"}}>
+        <Box sx={{ ...mobileFieldWidthSx, marginTop:"3.2rem" }}>
                    Do you Use Irrigation ?
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -1209,10 +1238,10 @@ else{
                  {/** PASTE HERE!! */}
                   </div>
 
-                </div>
+                </Box>
 
 
-                <div style={{marginTop:"3.2rem"}}>
+                <Box sx={{ ...mobileFieldWidthSx, marginTop:"3.2rem" }}>
                    Organic Farming 
                   <div style={inputContainer2}>
                   <FormControl style={{position:"relative",left:"-0rem",top:"-0rem",scale:"0.9"}}>
@@ -1232,12 +1261,12 @@ else{
                  {/** PASTE HERE!! */}
                   </div>
 
-                </div>
+                </Box>
  
 
  
   <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height:"4rem",maxWidth:{xs:"25rem",sm:"70%",md:"80%",lg:"100%"}, paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
         
@@ -1275,7 +1304,7 @@ else{
 
         
  <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%",maxWidth:{xs:"28em",sm:"70%",md:"80%",lg:"100%"}, height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem"}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1333,7 +1362,7 @@ else{
      
 
 
-<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"105%",sm:"105%"}, display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"2rem",sm:"3rem"} }}>
+<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"100%",sm:"105%"}, display:"flex", alignItems:{xs:"center" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"3rem"} }}>
 <Grid item xs={3}>
   <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
    <div >
@@ -1381,9 +1410,9 @@ else{
  </Grid>
 
 
-<Grid item sm={10.2} xs={10.5} style={{width:"100%"}}>
+<Grid item sm={10.2} xs={12} style={{width:"100%"}}>
       {
-     <Box sx={{width:{xs:"20rem",sm:"70%",md:"90%",lg:"100%"},padding: '10px', border: '1px solid #00000033',marginLeft:{xs:"20.5rem",sm:"9rem",md:"3rem",lg:"0rem"} }}>
+     <Box sx={{width:{xs:"20rem",sm:"70%",md:"90%",lg:"100%"},padding: '10px', border: '1px solid #00000033',marginLeft:{xs:"0rem",sm:"9rem",md:"3rem",lg:"0rem"} }}>
               <> 
                  &nbsp; 
                {  challenges.map((chipItem,index)=>(
@@ -1460,7 +1489,7 @@ else{
 
 
 
-        <div style={{marginTop:"3rem"}}>
+        <Box sx={{ ...mobileFieldWidthSx, marginTop:"3rem" }}>
 
           <p style={{fontWeight:"500"}}> 
          Land Ownership
@@ -1482,7 +1511,7 @@ else{
        </FormControl>
        {/** PASTE HERE!! */}
         </div>
-      </div>
+      </Box>
 
 
 
@@ -1492,7 +1521,7 @@ else{
 
 
               <Select
-          sx={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"}}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" },
          
@@ -1534,7 +1563,7 @@ else{
        <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"center",sm:"flex-start"},justifyContent:"center"}} >
         
 
-       <div style={{marginTop:"0.7rem",width:"100%"}}>
+       <Box sx={{ ...mobileFieldWidthSx, marginTop:"0.7rem" }}>
                    
                    <p style={{display:"block",fontWeight:"400",width:"80%"}}>
                     Check if farmer has secondary trade or job
@@ -1578,7 +1607,7 @@ else{
                        label={'Describe secondary trade or job'}
                        value={offFarmIncomeDetails}
                        onChange={(e)=>{setOffFarmIncomeDetails(e.target.value)}}
-                         sx={{ color:'black' ,width:"28rem",maxWidth:{xs:"28rem",sm:"70%",md:"80%",lg:"100%"}}}
+                        sx={{ ...mobileFieldWidthSx, color:'black', width:{ xs: '100%', sm: '28rem' }}}
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
                          style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" },
@@ -1598,7 +1627,7 @@ else{
              
                     {/** PASTE HERE!! */}
                      </div>
-      </div>
+      </Box>
 
 
 
@@ -1647,7 +1676,7 @@ else{
                        label={'Name of groups or cooperatives'}
                        value={farmerGroupMembershipDetails}
                        onChange={(e)=>{setFarmerGroupMembershipDetails(e.target.value)}}
-                         sx={{ width:"30rem",color:'black' ,maxWidth:{xs:"28rem",sm:"70%",md:"80%",lg:"100%"}}}
+                        sx={{ width:{ xs: '100%', sm: '30rem' },color:'black' ,maxWidth:{xs:"20rem",sm:"70%",md:"80%",lg:"100%"}}}
                          
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
@@ -1786,7 +1815,7 @@ else{
 
           <div style={{display:"inline-flex"}}>Full Name:&nbsp;{' '}{' '} <span style={{fontWeight:"bold"}}>{firstName + " " + otherNames + " " + lastName}</span></div>
 
-          <div style={{display:"inline-flex"}}>Age:&nbsp;{' '}{' '} <span style={{fontWeight:"bold"}}>{age}</span></div>
+          <div style={{display:"inline-flex"}}>Date of Birth:&nbsp;{' '}{' '} <span style={{fontWeight:"bold"}}>{age}</span></div>
 
 
             <div style={{display:"inline-flex"}}>No of Spouse:&nbsp;{' '}{' '} <span style={{fontWeight:"bold"}}>{noOfSpouse}</span></div>

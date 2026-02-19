@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress } from '@mui/material';
+import { Grid, Container, Typography, FormControl, Box, Select, MenuItem, Button, CircularProgress, Chip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import { useTheme, styled } from '@mui/material/styles';
 
 import FarmerStatsLong from 'src/components/home/farmer-stats-long';
 import SmallCustomSearchBar from 'src/components/global/SmalllCustomSearchBar';
+import { getOutboxCount } from 'src/offline/outboxDb';
+import { syncOutboxNow } from 'src/offline/outboxSync';
 
 import { FaPlus } from 'react-icons/fa6';
 
@@ -63,6 +65,16 @@ export default function AllFarmersForOneAgentPage() {
   const [selectedFilter, setSelectedFilter] = useState(''); /**not using regular expressions here */
   const [selectedLocation, setSelectedLocation] = useState(/.*/ );
   const [loadingPage,setLoadingPage] = useState(false)
+  const [pendingOutboxCount, setPendingOutboxCount] = useState(0);
+
+  const refreshPendingOutboxCount = async () => {
+    try {
+      const count = await getOutboxCount();
+      setPendingOutboxCount(count);
+    } catch (error) {
+      setPendingOutboxCount(0);
+    }
+  };
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -70,6 +82,28 @@ export default function AllFarmersForOneAgentPage() {
     }
     ,1500)
     },[])
+
+  useEffect(() => {
+    refreshPendingOutboxCount();
+
+    const handleOnline = async () => {
+      await syncOutboxNow();
+      await refreshPendingOutboxCount();
+    };
+
+    window.addEventListener('online', handleOnline);
+    const timer = window.setInterval(refreshPendingOutboxCount, 15000);
+
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.clearInterval(timer);
+    };
+  }, []);
+
     
 
  /* const forcedId =  []
@@ -185,7 +219,15 @@ useEffect(()=>{
       <CircularProgress/>
      </center>
   :
-      <Container maxWidth="xl" style={{scale:"0.9",position:"relative",top:"-2rem",left:"-2rem"}} >
+      <Container
+        maxWidth="xl"
+        sx={{
+          scale: { xs: 1, sm: 1, md: 0.9 },
+          position: 'relative',
+          top: { xs: 0, sm: 0, md: '-2rem' },
+          left: { xs: 0, sm: 0, md: '-2rem' },
+        }}
+      >
       
    
       <Grid container spacing={2} alignItems="center" justifyContent="flex-start" style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",marginTop:"0.3rem",paddingRight:"0rem"}}> 
@@ -196,6 +238,22 @@ useEffect(()=>{
      
      <h1 style={{fontWeight:"500",marginBottom:"0rem"}}>Farmers</h1>
      <div>View and manage all farmers</div>
+     <div style={{display:"flex",alignItems:"center",gap:"0.6rem",marginTop:"0.7rem"}}>
+      {/* <Chip
+        size="small"
+        label={navigator.onLine ? "Online" : "Offline"}
+        style={{
+          backgroundColor: navigator.onLine ? "#E8F5E9" : "#FDECEA",
+          color: navigator.onLine ? "#1B5E20" : "#B71C1C",
+          fontWeight: 500,
+        }}
+      /> */}
+      <Chip
+        size="small"
+        label={`Pending sync: ${pendingOutboxCount}`}
+        style={{ backgroundColor: "#EEF2FF", color: "#1E3A8A", fontWeight: 500 }}
+      />
+     </div>
      
      </div>
      

@@ -7,6 +7,7 @@ import ScrollToTop from './components/scroll-to-top';
 import { StyledChart } from './components/chart';
 import './index.css';
 import { ToastContainer } from 'react-toastify';
+import OfflineStatusBanner from './components/offline/OfflineStatusBanner';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function App() {
             pauseOnHover
           />
       <ScrollToTop />
+      {/* <OfflineStatusBanner /> */}
       <StyledChart />
       <Router />
     </ThemeProvider>

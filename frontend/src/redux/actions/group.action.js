@@ -105,6 +105,13 @@ import retailerBaseUrl from './retailerScoreUrl';
 import { useSelector } from 'react-redux';
 import { fetchAdminById } from './auth.action';
 import { useNavigate } from 'react-router-dom';
+import {
+  enqueueHttpSubmission,
+  enqueueIntakeSubmission,
+  enqueueRetailerSubmission,
+  fileToDataUrl,
+  withSyncMetadata,
+} from 'src/offline/outboxSync';
 
 
 const s3 = new S3({
@@ -231,17 +238,42 @@ export const calculateRetailerScore = (retailerInfo) => async (dispatch) => {
 
 
 
-export const addNewFarmer = (farmerInfo) => async (dispatch,getState) => {
-  
- // //console.log("ADDING NEW FARMERS")
-  axios.post(`${baseUrl}/api/farmers`,farmerInfo)
+export const addNewFarmer = (farmerInfo, navigate, setLoading) => async (dispatch,getState) => {
+  const payload = { ...farmerInfo };
+
+  if (!navigator.onLine) {
+    await enqueueHttpSubmission({
+      url: `${baseUrl}/api/farmers`,
+      payload,
+    });
+    notifySuccessFxn("Saved offline. Farmer will sync when you're online.");
+    if (setLoading) setLoading(false);
+    if (navigate) navigate('/dashboard/all-farmers-one-agent');
+    return;
+  }
+
+  axios.post(`${baseUrl}/api/farmers`, payload)
   .then(()=>{
    // //console.log("we have refetched all farmers")
    dispatch(fetchAllFarmers())
   }).then(()=>{
     notifySuccessFxn('Farmer Successfully Added!')
-  })
-
+    if (setLoading) setLoading(false);
+    if (navigate) navigate('/dashboard/all-farmers-one-agent');
+  }).catch(async (error) => {
+    if (!error?.response) {
+      await enqueueHttpSubmission({
+        url: `${baseUrl}/api/farmers`,
+        payload,
+      });
+      notifySuccessFxn("Connection lost. Farmer saved offline and will sync automatically.");
+      if (setLoading) setLoading(false);
+      if (navigate) navigate('/dashboard/all-farmers-one-agent');
+      return;
+    }
+    notifyErrorFxn("Could not add farmer, please try again");
+    if (setLoading) setLoading(false);
+  });
 }
 
 export const requestWelcomeEmail = (retailerInfo) => async (dispatch,getState) => {
@@ -308,14 +340,25 @@ export const addNewRetailerProblematic = (retailerInfo,navigate) => async (dispa
 
 
 
-export const addNewRetailer = (farmerInfo,navigate
+export const addNewRetailer = (farmerInfo,navigate,setLoading,resetForm
 
 ) => async (dispatch) => {
-  
-
-
+  const payload = { ...farmerInfo, photoUrl: "" };
   console.log("ADDING NEW Retailer WITHOUT IMAGE")
-  axios.post(`${baseUrl}/api/retailers/`,{...farmerInfo,photoUrl:""})
+
+  if (!navigator.onLine) {
+    await enqueueRetailerSubmission({ payload });
+    notifySuccessFxn("Saved offline. Retailer details and documents will sync automatically.");
+    if (setLoading) {
+      setLoading(false);
+    }
+    if (resetForm) {
+      resetForm();
+    }
+    return;
+  }
+
+  axios.post(`${baseUrl}/api/retailers/`, payload)
   .then((res)=>{
     console.log("we have refetched all retailers")
    dispatch(fetchAllRetailers(farmerInfo.agentId))
@@ -338,10 +381,30 @@ export const addNewRetailer = (farmerInfo,navigate
 
     dispatch(saveRetailerInFocus({...response.data}))  //res.data contains a property called message success ..its not a big deal if u dont remove it though
     setTimeout(()=>{ navigate('/dashboard/all-retailers-one-agent')},1000)
+    if (setLoading) {
+      setLoading(false);
+    }
+    if (resetForm) {
+      resetForm();
+    }
   })
-  .catch((error) => {
+  .catch(async (error) => {
+    if (!error?.response) {
+      await enqueueRetailerSubmission({ payload });
+      notifySuccessFxn("Connection lost. Retailer submission saved offline and will sync automatically.");
+      if (setLoading) {
+        setLoading(false);
+      }
+      if (resetForm) {
+        resetForm();
+      }
+      return;
+    }
     console.error("Error adding retailer:", error);
     notifyErrorFxn('Could not add retailer, please make sure you have not registered with this email before');
+    if (setLoading) {
+      setLoading(false);
+    }
   });
 
 }
@@ -1910,10 +1973,18 @@ export const updateFormFields = (id,fields) => async (dispatch,getState) => {
 
 
 export const submitNewResponse = (response) => async (dispatch,getState) => {
-    
- 
+  const payload = withSyncMetadata({ ...response });
 
-  await  axios.post(`${baseUrl}/api/responses/`,{...response}).then((results)=>{
+  if (!navigator.onLine) {
+    await enqueueHttpSubmission({
+      url: `${baseUrl}/api/responses/`,
+      payload,
+    });
+    notifySuccessFxn("Saved offline. Response will sync when you're online.");
+    return;
+  }
+
+  await  axios.post(`${baseUrl}/api/responses/`, payload).then((results)=>{
       //console.log("AXIOS REQUEST FOR ADDING NEW RESPONSE HAS BEGUN")
 
    if(results.data.message === "success"){
@@ -1925,8 +1996,16 @@ export const submitNewResponse = (response) => async (dispatch,getState) => {
 
    }
     
-   }).catch((err)=>{
-    //console.log("Error getting document:", err);
+   }).catch(async (err)=>{
+    if (!err?.response) {
+      await enqueueHttpSubmission({
+        url: `${baseUrl}/api/responses/`,
+        payload,
+      });
+      notifySuccessFxn("Connection lost. Saved offline and will sync automatically.");
+      return;
+    }
+    notifyErrorFxn("Error submitting response, please try again");
    })
 
 }
@@ -2353,10 +2432,18 @@ export const addNewProduct = (response) => async (dispatch,getState) => {
 
 
 export const updateFarmerInput = (farmerObject) => async (dispatch,getState) => {
-    
- 
+  const payload = withSyncMetadata({ ...farmerObject });
 
-  await  axios.post(`${baseUrl}/api/farmers/updateInput`,{...farmerObject}).then((results)=>{
+  if (!navigator.onLine) {
+    await enqueueHttpSubmission({
+      url: `${baseUrl}/api/farmers/updateInput`,
+      payload,
+    });
+    notifySuccessFxn("Saved offline. Farmer input will sync when you're online.");
+    return;
+  }
+
+  await  axios.post(`${baseUrl}/api/farmers/updateInput`, payload).then((results)=>{
       //console.log("AXIOS REQUEST FOR UPDATING FARMER INPUT HAS BEGUN")
 
    if(results.data.message === "success"){
@@ -2368,18 +2455,34 @@ export const updateFarmerInput = (farmerObject) => async (dispatch,getState) => 
 
    }
     
-   }).catch((err)=>{
-    //console.log("Error getting document:", err);
+   }).catch(async (err)=>{
+    if (!err?.response) {
+      await enqueueHttpSubmission({
+        url: `${baseUrl}/api/farmers/updateInput`,
+        payload,
+      });
+      notifySuccessFxn("Connection lost. Saved offline and will sync automatically.");
+      return;
+    }
+    notifyErrorFxn("Error updating input, please try again");
    })
 
 }
 
 
 export const updateFarmerHarvest = (farmerObject) => async (dispatch,getState) => {
-    
- 
+  const payload = withSyncMetadata({ ...farmerObject });
 
-  await  axios.post(`${baseUrl}/api/farmers/updateHarvest`,{...farmerObject}).then((results)=>{
+  if (!navigator.onLine) {
+    await enqueueHttpSubmission({
+      url: `${baseUrl}/api/farmers/updateHarvest`,
+      payload,
+    });
+    notifySuccessFxn("Saved offline. Farmer harvest will sync when you're online.");
+    return;
+  }
+
+  await  axios.post(`${baseUrl}/api/farmers/updateHarvest`, payload).then((results)=>{
       //console.log("AXIOS REQUEST FOR UPDATING FARMER HARVEST HAS BEGUN")
 
    if(results.data.message === "success"){
@@ -2391,8 +2494,16 @@ export const updateFarmerHarvest = (farmerObject) => async (dispatch,getState) =
 
    }
     
-   }).catch((err)=>{
-    //console.log("Error getting document:", err);
+   }).catch(async (err)=>{
+    if (!err?.response) {
+      await enqueueHttpSubmission({
+        url: `${baseUrl}/api/farmers/updateHarvest`,
+        payload,
+      });
+      notifySuccessFxn("Connection lost. Saved offline and will sync automatically.");
+      return;
+    }
+    notifyErrorFxn("Error updating harvest, please try again");
    })
 
 }
@@ -2696,6 +2807,18 @@ export const updateFarmerSingleInput = (farmerObject) => async (dispatch,getStat
 
 
 export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep3,stateSetters) => async (dispatch) => {
+  if (!photo) {
+    notifyErrorFxn("Please Upload a photo before submitting!");
+    return;
+  }
+
+  if (!navigator.onLine) {
+    const photoDataUrl = await fileToDataUrl(photo);
+    await enqueueIntakeSubmission({ response, photoDataUrl });
+    notifySuccessFxn("Saved offline. Farmer intake will sync when you're online.");
+    return;
+  }
+
   const uploadToS3 = async (file) => {
 
     console.log("PABOUT TO SEND TO S3--->",file)
@@ -2760,9 +2883,9 @@ export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep
 
 
  if(creditScoreObject && creditScoreObject.data && creditScoreObject.data.riskScore){
-
+  const payloadWithMeta = withSyncMetadata(response);
   await axios.post(`${baseUrl}/api/responses/`,{
-    ...response,responseObject:{
+    ...payloadWithMeta,responseObject:{
       ...response.responseObject,
       photo:res,
      riskScore:creditScoreObject && creditScoreObject.data && creditScoreObject.data.riskScore
@@ -2833,7 +2956,13 @@ export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep
 
    }
     
-   }).catch((err)=>{
+   }).catch(async (err)=>{
+    if (!err?.response) {
+      const photoDataUrl = await fileToDataUrl(photo);
+      await enqueueIntakeSubmission({ response, photoDataUrl });
+      notifySuccessFxn("Connection lost. Intake saved offline and will sync automatically.");
+      return;
+    }
     console.log("Error getting document:", err);
    })
 
@@ -2842,7 +2971,13 @@ export const submitNewResponseIntake = (response,photo,setStep1,setStep2,setStep
    return
   }
 
-  }).catch((err)=>{
+  }).catch(async (err)=>{
+    if (!navigator.onLine) {
+      const photoDataUrl = await fileToDataUrl(photo);
+      await enqueueIntakeSubmission({ response, photoDataUrl });
+      notifySuccessFxn("Saved offline. Farmer intake will sync when you're online.");
+      return;
+    }
     console.log("Error UPLOADING TO S3:", err);
    })
 
