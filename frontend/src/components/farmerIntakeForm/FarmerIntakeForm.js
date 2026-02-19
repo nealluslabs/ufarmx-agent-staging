@@ -1353,7 +1353,9 @@ else{
                 value={currentCrops}
                 placeholder={"Press Enter to add a new produce"}
 
-
+                InputProps={{
+                  style: { paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+                }}
               onChange={(e)=>{
                     
                 setCurrentCrops(e.target.value)
@@ -1371,9 +1373,7 @@ else{
             }}
                 sx={{  color: 'black' }}
                 InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
-                }}
+               
                 variant="outlined"
                 fullWidth
                 // margin="normal"
@@ -1383,7 +1383,7 @@ else{
 
     <Grid item xs={12} style={{width:"100%"}}>
       {
-     <Box sx={{maxWidth:{xs:"25rem",sm:"70%",md:"80%",lg:"100%"},padding: '10px', border: '1px solid #00000033' }}>
+     <Box sx={{maxWidth:{xs:"25rem",sm:"70%",md:"80%",lg:"100%",height:"4rem"},padding: '10px', border: '1px solid #00000033' }}>
               <> 
                  &nbsp; 
                {  cropsLivestock.map((chipItem,index)=>(
@@ -1463,7 +1463,7 @@ else{
 
  
   <Select
-          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.6rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
         
@@ -1501,7 +1501,7 @@ else{
 
         
  <Select
-          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.6rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
          inputProps={{
           style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
          
@@ -1559,7 +1559,7 @@ else{
      
 
 
-<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"100%",sm:"105%"}, display:"flex", alignItems:{xs:"flex-start" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"0rem",sm:"3rem"} }}>
+<Grid container item xs={12} spacing={2} sx={{minWidth:{xs:"100%",sm:"105%"}, display:"flex", alignItems:{xs:"flex-start" ,sm:"flex-start"},justifyContent:{xs:"flex-start",sm:"flex-start"},marginLeft:{xs:"-1rem",sm:"3rem"} }}>
 <Grid item xs={3}>
   <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
    <div >
@@ -1572,15 +1572,18 @@ else{
 
 
 
-<Grid item  xs={11} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
+<Grid item  xs={11.5} sm={10} style={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
    <TextField
           key={"Challenges"}
           label={'Challenges'}
           placeholder={"Press Enter to add a new challenge"}
           value={currentChallenge}
+          InputProps={{
+            style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
+          }}
           onChange={(e)=>{
             
-            
+    
             setCurrentChallenge(e.target.value)
 
 
@@ -1607,9 +1610,9 @@ else{
  </Grid>
 
 
-<Grid item sm={10.2} xs={12} style={{width:"100%"}}>
+<Grid item sm={10.6} xs={12} style={{width:"100%"}}>
       {
-     <Box sx={{width:{xs:"20rem",sm:"70%",md:"90%",lg:"100%"},padding: '10px', border: '1px solid #00000033',marginLeft:{xs:"0rem",sm:"9rem",md:"3rem",lg:"0rem"} }}>
+     <Box sx={{height:"4rem",width:{xs:"20.3rem",sm:"70%",md:"90%",lg:"100%"},padding: '10px', border: '1px solid #00000033',marginLeft:{xs:"0rem",sm:"9rem",md:"3rem",lg:"0rem"} }}>
               <> 
                  &nbsp; 
                {  challenges.map((chipItem,index)=>(
@@ -1623,7 +1626,7 @@ else{
   </Grid>
 
 
-  <Grid container spacing={1} xs={12} sx={{display:"flex",alignItems:"flex-start",flexDirection:{xs:"column",sm:"row"},justifyContent:"flex-start",gap:"0.3rem",marginTop:"0.5rem",position:"relative",left:"0.5rem"}} > 
+  <Grid container spacing={1} xs={12} sx={{display:"flex",alignItems:"flex-start",flexDirection:{xs:"column",sm:"row"},justifyContent:"flex-start",gap:"0.3rem",marginTop:"0.5rem",position:"relative",left:"1.3rem"}} > 
       <Grid item xs={12} sm={5} > 
       <Stack spacing={3} sx={{minHeight:"100%",paddingTop:"0rem", display:"flex", alignItems:{xs:"flex-start",sm:"flex-start"},justifyContent:"center"}} >
       
@@ -1718,9 +1721,9 @@ else{
 
 
               <Select
-          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB"}}
+          sx={{...mobileFieldWidthSx,backgroundColor:"#FFFFFF",borderRadius:"0.1rem", height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB", borderRadius:"0.6rem",width:"95%"}}
          inputProps={{
-          style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" },
+          style: {height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",borderRadius:"0.8rem" },
          
       }}
         
@@ -1804,10 +1807,10 @@ else{
                        label={'Describe secondary trade or job'}
                        value={offFarmIncomeDetails}
                        onChange={(e)=>{setOffFarmIncomeDetails(e.target.value)}}
-                        sx={{ ...mobileFieldWidthSx, color:'black', width:{ xs: '100%', sm: '100%' }}}
+                        sx={{ ...mobileFieldWidthSx, color:'black', width:{ xs: '95%', sm: '100%' }}}
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
-                         style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB" },
+                         style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",width:"95%" },
                        }}
                        variant="outlined"
                        fullWidth
@@ -1873,11 +1876,11 @@ else{
                        label={'Name of groups or cooperatives'}
                        value={farmerGroupMembershipDetails}
                        onChange={(e)=>{setFarmerGroupMembershipDetails(e.target.value)}}
-                        sx={{ width:{ xs: '100%', sm: '30rem' },color:'black' ,maxWidth:"100%"}}
+                        sx={{ width:{ xs: '95%', sm: '30rem' },color:'black' ,maxWidth:"100%"}}
                          
                        InputLabelProps={{ shrink: true }}
                        InputProps={{
-                         style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",width:"100%"},
+                         style: { height:"4rem", paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",width:"95%"},
                        }}
                        variant="outlined"
                        fullWidth
