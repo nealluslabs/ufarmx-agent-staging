@@ -403,10 +403,12 @@ const getGeolocation = () =>{
    
     if(gpsLocation.longitude === null ||gpsLocation.latitude === null ){
       notifyErrorFxn("Please Fetch Co-ordinates, before Submitting!")
+      setLoading(false)   
       return
      }
      else if(!photo){
        notifyErrorFxn("Please Upload a photo before submitting!")
+        setLoading(false)
        return
      }
 else{
@@ -1600,9 +1602,6 @@ else{
         }}
           sx={{ color:'black',width:"100%" }}
           InputLabelProps={{ shrink: true }}
-          InputProps={{
-            style: { height: '4rem', paddingLeft: '1rem', color: 'black',backgroundColor:"#F9FAFB",height:"4rem" },
-          }}
           variant="outlined"
           fullWidth
           margin="normal"
